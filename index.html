@@ -978,6 +978,51 @@
             .portfolio-grid { grid-template-columns: 1fr; }
         }
 
+
+        /* ── VOZ · TTS ── */
+        .chatbot-voice-btn {
+            background: transparent;
+            border: 1px solid rgba(255,215,0,0.35);
+            color: rgba(255,215,0,0.8);
+            border-radius: 50%;
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            padding: 0;
+            line-height: 1;
+        }
+        .chatbot-voice-btn:hover { background: rgba(255,215,0,0.15); border-color: #FFD700; color: #FFD700; }
+        .chatbot-voice-btn.voz-on { background: #FFD700; color: #0a0a0a; border-color: #FFD700; }
+        .chatbot-voice-btn.speaking { animation: pulse-gold 0.8s ease-in-out infinite; }
+        @keyframes pulse-gold {
+            0%,100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(255,215,0,0); }
+        }
+        .msg-speak-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: rgba(255,215,0,0.5);
+            padding: 2px 4px;
+            border-radius: 4px;
+            margin-left: 6px;
+            vertical-align: middle;
+            line-height: 1;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+        .msg-speak-btn:hover { color: #FFD700; }
+        .chatbot-message.bot {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 4px !important;
+        }
+        .msg-text { flex: 1; }
+
     </style>
 </head>
 <body>
@@ -1708,6 +1753,7 @@
                         <span>🟢 En línea — ¡Escríbenos!</span>
                     </div>
                 </div>
+                <button id="jf-voz-toggle" class="chatbot-voice-btn" onclick="toggleVoz()" title="Activar / desactivar voz">🔇</button>
             </div>
             <div class="chatbot-messages" id="chatbotMessages">
                 <div class="chatbot-message bot">
@@ -2010,7 +2056,22 @@ ${notas ? `📝 *Notas:* ${notas}` : ''}
             const messagesDiv = document.getElementById('chatbotMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `chatbot-message ${esUsuario ? 'user' : 'bot'}`;
-            messageDiv.textContent = mensaje;
+            if (!esUsuario) {
+                const textSpan = document.createElement('span');
+                textSpan.className = 'msg-text';
+                textSpan.textContent = mensaje;
+                const speakBtn = document.createElement('button');
+                speakBtn.className = 'msg-speak-btn';
+                speakBtn.title = 'Escuchar mensaje';
+                speakBtn.textContent = '🔊';
+                const msgText = mensaje;
+                speakBtn.onclick = function(e){ e.stopPropagation(); jfHablar(msgText, speakBtn); };
+                messageDiv.appendChild(textSpan);
+                messageDiv.appendChild(speakBtn);
+                if (jfVozActiva) jfHablar(mensaje, speakBtn);
+            } else {
+                messageDiv.textContent = mensaje;
+            }
             messagesDiv.appendChild(messageDiv);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
@@ -2422,6 +2483,67 @@ ${notas ? `📝 *Notas:* ${notas}` : ''}
             if (el) el.src = port;
         }
     });
+    </script>
+
+    <script>
+    /* ════════════════════════════════════
+       VOZ — Web Speech API (es-ES Google)
+       ════════════════════════════════════ */
+    var jfVozActiva = false;
+    var jfVoiceObj  = null;
+
+    function jfCargarVoz() {
+        var voices = window.speechSynthesis.getVoices();
+        // Priority: Google es-ES → any es-ES → any Spanish
+        jfVoiceObj =
+            voices.find(function(v){ return v.lang === 'es-ES' && /google/i.test(v.name); }) ||
+            voices.find(function(v){ return v.lang === 'es-ES'; }) ||
+            voices.find(function(v){ return /^es/i.test(v.lang); }) ||
+            null;
+    }
+
+    if (window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = jfCargarVoz;
+        jfCargarVoz();
+    }
+
+    function jfHablar(texto, btn) {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel();
+        var textoLimpio = texto.replace(/[🔨☕👵💇💻ℹ️🏗️🎨🚿🏠🔧✂️👁️💁🌐📅📱⚙️🏡🤝💊🌅👤📧📱🔧✅⭐👩👨🦋🎉🏨👔]/gu, '').trim();
+        var utterance = new SpeechSynthesisUtterance(textoLimpio);
+        utterance.lang    = 'es-ES';
+        utterance.rate    = 0.92;
+        utterance.pitch   = 1.05;
+        utterance.volume  = 1.0;
+        if (jfVoiceObj) utterance.voice = jfVoiceObj;
+        if (btn) {
+            var prevText = btn.textContent;
+            btn.classList.add('speaking');
+            utterance.onend   = function(){ btn.classList.remove('speaking'); btn.textContent = prevText; };
+            utterance.onerror = function(){ btn.classList.remove('speaking'); btn.textContent = prevText; };
+            btn.textContent = '⏹';
+            btn.onclick = function(e){ e.stopPropagation(); window.speechSynthesis.cancel(); };
+        }
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function toggleVoz() {
+        jfVozActiva = !jfVozActiva;
+        var btn = document.getElementById('jf-voz-toggle');
+        if (!btn) return;
+        if (jfVozActiva) {
+            btn.textContent = '🔊';
+            btn.classList.add('voz-on');
+            btn.title = 'Voz activada — pulsa para desactivar';
+            jfHablar('¡Hola! Voz activada. ¿En qué puedo ayudarte?');
+        } else {
+            window.speechSynthesis.cancel();
+            btn.textContent = '🔇';
+            btn.classList.remove('voz-on');
+            btn.title = 'Activar voz';
+        }
+    }
     </script>
 </body>
 </html>
