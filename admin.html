@@ -51,6 +51,7 @@ input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.3);}
     <button class="tab-btn" id="tab-avatar" onclick="setTab('avatar')">🤖 Chat</button>
     <button class="tab-btn" id="tab-telefonos" onclick="setTab('telefonos')">📞 Teléfonos</button>
     <button class="tab-btn" id="tab-app" onclick="setTab('app')">📲 APP</button>
+    <button class="tab-btn" id="tab-trabajos" onclick="setTab('trabajos')">📸 Trabajos</button>
   </div>
 
   <div style="padding:20px 18px;padding-bottom:60px;">
@@ -145,6 +146,71 @@ input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.3);}
       </div>
     </div>
 
+
+    <!-- TAB TRABAJOS / GALERÍA -->
+    <div id="sec-trabajos" class="hidden">
+      <p style="color:rgba(255,255,255,0.55);font-size:0.78rem;line-height:1.6;margin:0 0 18px;">Añade fotos y trabajos reales que aparecen en la galería de la página principal.</p>
+
+      <!-- Añadir nuevo trabajo -->
+      <div class="card">
+        <span class="adm-lbl">Añadir nuevo trabajo</span>
+
+        <div style="margin-bottom:10px;">
+          <span class="adm-lbl" style="margin-bottom:5px;">Categoría</span>
+          <select id="tj-cat" class="adm-in">
+            <option value="Peluquería">💇 Peluquería</option>
+            <option value="Albañilería">🏗️ Albañilería</option>
+            <option value="Hostelería">☕ Hostelería</option>
+            <option value="Páginas Web">💻 Páginas Web</option>
+            <option value="Cuidados">👵 Cuidados</option>
+            <option value="Otro">⭐ Otro</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:10px;">
+          <span class="adm-lbl" style="margin-bottom:5px;">Título del trabajo</span>
+          <input id="tj-title" type="text" placeholder="Ej: Corrección de color — antes y después" class="adm-in">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <span class="adm-lbl" style="margin-bottom:5px;">Descripción (opcional)</span>
+          <input id="tj-desc" type="text" placeholder="Breve descripción del trabajo" class="adm-in">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <span class="adm-lbl" style="margin-bottom:5px;">Foto del trabajo</span>
+          <div style="display:flex;gap:9px;margin-bottom:10px;">
+            <button onclick="pickerTrabajo()" class="adm-btn">📷 Subir foto</button>
+          </div>
+          <div style="background:rgba(42,111,219,0.08);border:1px solid rgba(120,170,255,0.25);border-radius:10px;padding:11px 13px;">
+            <span class="adm-lbl" style="color:#9cc0ff;">🔗 O pega un link de Google Drive / URL directa:</span>
+            <div style="display:flex;gap:7px;">
+              <input id="tj-drive" type="text" placeholder="Link de Drive o URL de imagen" class="adm-in" style="font-size:0.74rem;padding:9px 11px;">
+              <button onclick="useDriveTrabajo()" style="flex:0 0 auto;background:#2A6FDB;border:none;color:#fff;font-size:0.64rem;font-weight:700;padding:0 12px;border-radius:8px;cursor:pointer;">Usar</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="tj-preview-wrap" style="display:none;margin-bottom:14px;">
+          <img id="tj-preview-img" src="" alt="Preview" style="width:100%;max-width:220px;aspect-ratio:4/3;object-fit:cover;border-radius:10px;border:1px solid rgba(255,215,0,0.3);">
+          <button onclick="clearTjImg()" style="display:block;margin-top:7px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:0.7rem;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:'Outfit',sans-serif;">✕ Quitar imagen</button>
+        </div>
+
+        <button onclick="saveTrabajo()" class="adm-btn">💾 Añadir a la galería</button>
+      </div>
+
+      <!-- Lista de trabajos existentes -->
+      <div class="card" style="margin-top:0;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <span class="adm-lbl" style="margin:0;">Trabajos en la galería</span>
+          <button onclick="clearAllTj()" style="background:transparent;border:1px solid rgba(255,60,60,0.4);color:rgba(255,90,90,0.8);font-size:0.62rem;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:'Outfit',sans-serif;">🗑 Borrar todos</button>
+        </div>
+        <div id="tj-list" style="display:flex;flex-direction:column;gap:10px;">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -169,7 +235,7 @@ function doUnlock(){
 document.getElementById('pinInput').addEventListener('keydown',function(e){if(e.key==='Enter')doUnlock();});
 
 function setTab(name){
-  ['portada','avatar','telefonos','app'].forEach(function(t){
+  ['portada','avatar','telefonos','app','trabajos'].forEach(function(t){
     document.getElementById('sec-'+t).classList.add('hidden');
     document.getElementById('tab-'+t).classList.remove('active');
   });
@@ -193,6 +259,7 @@ function handleFile(e){
   compress(f,function(data){
     if(_pending==='portada') savePortada(data);
     else if(_pending==='avatar') saveAvatar(data);
+    else if(_pending==='trabajo') showTjPreview(data);
     _pending=null;
   });
   e.target.value='';
@@ -285,8 +352,105 @@ function importBackup(){
   }catch(e){ alert('Error al leer el backup. Asegúrate de copiar el texto completo.'); }
 }
 
+
+/* ── Trabajos / Portfolio ── */
+var _tjImg = '';
+
+function pickerTrabajo(){ _pending='trabajo'; var i=document.getElementById('fileInput'); i.value=''; i.click(); }
+
+function showTjPreview(src){
+  _tjImg = src;
+  var wrap = document.getElementById('tj-preview-wrap');
+  var img = document.getElementById('tj-preview-img');
+  if(wrap && img){ img.src=src; wrap.style.display='block'; }
+}
+
+function clearTjImg(){
+  _tjImg='';
+  var wrap=document.getElementById('tj-preview-wrap');
+  if(wrap) wrap.style.display='none';
+}
+
+function useDriveTrabajo(){
+  var v=document.getElementById('tj-drive').value.trim();
+  if(!v){alert('Pega un link o URL.');return;}
+  showTjPreview(driveUrl(v));
+}
+
+function getPortfolioData(){
+  try{ var d=localStorage.getItem('jf_portfolio'); if(d) return JSON.parse(d)||[]; }catch(e){}
+  return [];
+}
+function savePortfolioData(arr){
+  localStorage.setItem('jf_portfolio', JSON.stringify(arr));
+}
+
+function saveTrabajo(){
+  var cat=document.getElementById('tj-cat').value;
+  var title=document.getElementById('tj-title').value.trim();
+  var desc=document.getElementById('tj-desc').value.trim();
+  if(!title){alert('Escribe un título para el trabajo.');return;}
+  var arr=getPortfolioData();
+  var id=Date.now();
+  arr.push({id:id, cat:cat, title:title, desc:desc, img:_tjImg});
+  savePortfolioData(arr);
+  document.getElementById('tj-title').value='';
+  document.getElementById('tj-desc').value='';
+  document.getElementById('tj-drive').value='';
+  clearTjImg();
+  renderTjList();
+  alert('✅ Trabajo añadido a la galería.');
+}
+
+function deleteTrabajo(id){
+  if(!confirm('¿Eliminar este trabajo de la galería?'))return;
+  var arr=getPortfolioData().filter(function(i){return i.id!==id;});
+  savePortfolioData(arr);
+  renderTjList();
+}
+
+function clearAllTj(){
+  if(!confirm('¿Borrar TODOS los trabajos de la galería?'))return;
+  localStorage.removeItem('jf_portfolio');
+  renderTjList();
+  alert('↩ Galería limpiada. Se usarán los trabajos de ejemplo.');
+}
+
+function renderTjList(){
+  var arr=getPortfolioData();
+  var el=document.getElementById('tj-list');
+  if(!el)return;
+  if(!arr.length){
+    el.innerHTML='<p style="color:rgba(255,255,255,0.35);font-size:0.74rem;text-align:center;padding:18px 0;">Todavía no hay trabajos añadidos.<br>Se muestran los 6 ejemplos por defecto.</p>';
+    return;
+  }
+  var icons={'Peluquería':'💇','Albañilería':'🏗️','Hostelería':'☕','Páginas Web':'💻','Cuidados':'👵','Otro':'⭐'};
+  el.innerHTML=arr.map(function(item){
+    var icon=icons[item.cat]||'⭐';
+    return '<div style="display:flex;align-items:center;gap:10px;background:#0d0d0d;border:1px solid rgba(255,215,0,0.15);border-radius:10px;padding:10px 12px;">'+
+      (item.img?'<img src="'+item.img+'" style="width:48px;height:48px;object-fit:cover;border-radius:8px;flex-shrink:0;" onerror="this.style.display='none'">':'<div style="width:48px;height:48px;border-radius:8px;background:#1a1400;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">'+icon+'</div>')+
+      '<div style="flex:1;min-width:0;">'+
+        '<div style="font-size:0.62rem;color:#FFD700;font-weight:700;letter-spacing:1px;">'+icon+' '+item.cat+'</div>'+
+        '<div style="font-size:0.82rem;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+item.title+'</div>'+
+        (item.desc?'<div style="font-size:0.68rem;color:rgba(255,255,255,0.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+item.desc+'</div>':'')+
+      '</div>'+
+      '<button onclick="deleteTrabajo('+item.id+')" style="flex-shrink:0;background:transparent;border:1px solid rgba(255,60,60,0.35);color:rgba(255,90,90,0.7);padding:5px 9px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-family:'Outfit',sans-serif;">🗑</button>'+
+    '</div>';
+  }).join('');
+}
+
 /* ── Load stored values on open ── */
+function saveAmwayUrl(){
+  var v=document.getElementById('amway-url-in').value.trim();
+  if(!v){alert('Pega el link de tu tienda Amway.');return;}
+  localStorage.setItem('jf_amway_url',v);
+  alert('✅ Link de Amway guardado. Ya aparece en el botón de la tienda.');
+}
+
 function loadAll(){
+  renderTjList();
+  var au=localStorage.getItem('jf_amway_url');
+  if(au){var el=document.getElementById('amway-url-in');if(el)el.value=au;}
   var p=localStorage.getItem('jf_portada');
   if(p) showPreviewPortada(p);
   var a=localStorage.getItem('jf_chatbot_avatar');

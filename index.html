@@ -726,6 +726,403 @@
             font-weight: 500;
             opacity: 0.85;
         }
+
+        /* ========================================================
+           TEMA UNIFICADO OSCURO DORADO — Jonatan & Fátima
+           ======================================================== */
+        :root {
+            --gold: #FFD700;
+            --amber: #FFA500;
+            --dark: #0a0a0a;
+            --card: #141414;
+            --card-hover: #1a1a1a;
+            --text: #ffffff;
+            --muted: rgba(255,255,255,0.6);
+            --border: rgba(255,215,0,0.2);
+            --border-hover: rgba(255,215,0,0.6);
+        }
+
+        /* Body & backgrounds */
+        body { background: var(--dark); color: var(--text); }
+
+        /* Section overrides */
+        .servicios-section { background: #0a0a0a !important; }
+        .servicios-section[style*="background"] { background: #0f0f0f !important; }
+        .servicios-section h2 { color: var(--gold) !important; }
+        .servicios-section > p { color: var(--muted) !important; }
+
+        /* Unified service cards */
+        .service-card {
+            background: var(--card) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            border-radius: 20px !important;
+            padding: 2rem 1.75rem !important;
+        }
+        .service-card:hover {
+            border-color: var(--gold) !important;
+            background: var(--card-hover) !important;
+            box-shadow: 0 20px 50px rgba(255,215,0,0.12) !important;
+            transform: translateY(-6px) !important;
+        }
+        .service-card .icon { color: var(--gold) !important; }
+        .service-card h3 { color: var(--gold) !important; }
+        .service-card p, .service-card ul li { color: var(--muted) !important; }
+        .service-card button {
+            background: var(--gold) !important;
+            color: #0a0a0a !important;
+            font-weight: 800 !important;
+            border: none !important;
+            border-radius: 50px !important;
+            padding: 0.75rem 2rem !important;
+            cursor: pointer !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 0.95rem !important;
+            transition: all 0.25s !important;
+        }
+        .service-card button:hover { background: var(--amber) !important; transform: translateY(-2px) !important; }
+
+        /* Badge */
+        .badge { background: var(--gold) !important; color: #0a0a0a !important; }
+
+        /* Area selector */
+        .area-selector { background: #111111 !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .btn-area {
+            background: var(--card) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--muted) !important;
+            border-radius: 50px !important;
+        }
+        .btn-area:hover { border-color: var(--border-hover) !important; color: var(--text) !important; }
+        .btn-area.active {
+            background: var(--gold) !important;
+            color: #0a0a0a !important;
+            border-color: var(--gold) !important;
+        }
+
+        /* Ciudades */
+        .ciudades-section { background: #0d0d0d !important; }
+        .ciudades-section h2 { color: var(--gold) !important; text-shadow: none !important; }
+        .ciudades-section > p, .ciudades-section > div > p { color: var(--muted) !important; }
+        .btn-ciudad {
+            background: var(--card) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--muted) !important;
+        }
+        .btn-ciudad:hover { border-color: var(--gold) !important; color: var(--gold) !important; box-shadow: 0 8px 24px rgba(255,215,0,0.1) !important; }
+        .btn-ciudad.selected { background: var(--gold) !important; color: #0a0a0a !important; border-color: var(--gold) !important; }
+        .btn-mi-ubicacion {
+            background: var(--gold) !important;
+            color: #0a0a0a !important;
+            box-shadow: 0 6px 20px rgba(255,215,0,0.25) !important;
+        }
+        .btn-mi-ubicacion:hover { background: var(--amber) !important; box-shadow: 0 10px 28px rgba(255,215,0,0.4) !important; }
+
+        /* Map */
+        .mapa-section { background: #0a0a0a !important; }
+        .mapa-section h2 { color: var(--gold) !important; }
+        .mapa-section p { color: var(--muted) !important; }
+
+        /* Trabajos videos */
+        .trabajos-section { background: #0f0f0f !important; }
+        .trabajos-section h2 { color: var(--gold) !important; }
+        .trabajos-section > p { color: var(--muted) !important; }
+        .video-card { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 16px !important; }
+        .video-card:hover { border-color: var(--border-hover) !important; box-shadow: 0 16px 40px rgba(255,215,0,0.1) !important; }
+        .video-card .video-info h4 { color: var(--gold) !important; }
+        .video-card .video-info p { color: var(--muted) !important; }
+
+        /* Chatbot */
+        .chatbot-button { border: 3px solid var(--gold) !important; box-shadow: 0 8px 24px rgba(255,215,0,0.3) !important; }
+        .chatbot-window { background: #141414 !important; border: 1px solid var(--border) !important; border-radius: 20px !important; }
+        .chatbot-header { background: linear-gradient(135deg,#1a1400 0%,#2a2000 100%) !important; border-bottom: 1px solid var(--border) !important; }
+        .chatbot-messages { background: #0d0d0d !important; }
+        .chatbot-message.bot { background: var(--card) !important; color: var(--text) !important; border: 1px solid var(--border); }
+        .chatbot-message.user { background: var(--gold) !important; color: #0a0a0a !important; }
+        .chatbot-options { background: #0a0a0a !important; border-top: 1px solid var(--border) !important; }
+        .chatbot-option { background: var(--card) !important; color: var(--gold) !important; border: 1px solid var(--border) !important; font-family: 'Outfit',sans-serif !important; }
+        .chatbot-option:hover { background: var(--gold) !important; color: #0a0a0a !important; border-color: var(--gold) !important; }
+
+        /* Modal cita */
+        .modal-cita-content { background: #141414 !important; border: 1px solid var(--border) !important; }
+        .modal-cita-content h3 { color: var(--gold) !important; }
+        .modal-cita-content > p { color: var(--muted) !important; }
+        .form-cita label { color: var(--gold) !important; }
+        .form-cita input, .form-cita select, .form-cita textarea {
+            background: #0d0d0d !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text) !important;
+            border-radius: 10px !important;
+        }
+        .form-cita input:focus, .form-cita select:focus, .form-cita textarea:focus {
+            border-color: var(--gold) !important;
+            outline: none !important;
+        }
+        .btn-confirmar-cita { background: linear-gradient(135deg,var(--gold) 0%,var(--amber) 100%) !important; color: #0a0a0a !important; border: none !important; border-radius: 12px !important; font-weight: 800 !important; }
+        .btn-cerrar-modal { background: #1c1c1c !important; border: 1px solid var(--border) !important; color: var(--muted) !important; border-radius: 12px !important; }
+
+        /* Footer */
+        footer { background: #060606 !important; border-top: 1px solid var(--border) !important; }
+
+        /* ── PORTFOLIO GALERÍA ── */
+        .portfolio-section {
+            padding: 5rem 2rem;
+            background: #0d0d0d;
+            text-align: center;
+        }
+        .portfolio-section h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .portfolio-section .subtitle {
+            font-size: 1.1rem;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+        }
+        .portfolio-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+        .portfolio-tab {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 0.55rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s;
+        }
+        .portfolio-tab.active, .portfolio-tab:hover {
+            background: var(--gold);
+            color: #0a0a0a;
+            border-color: var(--gold);
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .portfolio-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .portfolio-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(255,215,0,0.12);
+        }
+        .portfolio-card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+            background: linear-gradient(135deg, #1a1a00 0%, #2a2000 100%);
+        }
+        .portfolio-card-img-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #1a1400 0%, #2a2000 50%, #1a1400 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        .portfolio-card-body {
+            padding: 1.25rem;
+        }
+        .portfolio-card-cat {
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.4rem;
+        }
+        .portfolio-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+        .portfolio-card-desc {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        .portfolio-empty {
+            grid-column: 1/-1;
+            padding: 4rem 2rem;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+        @media (max-width: 580px) {
+            .portfolio-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+            .portfolio-section h2 { font-size: 1.8rem; }
+        }
+        @media (max-width: 380px) {
+            .portfolio-grid { grid-template-columns: 1fr; }
+        }
+
+
+        /* ── VOZ · TTS ── */
+        .chatbot-voice-btn {
+            background: transparent;
+            border: 1px solid rgba(255,215,0,0.35);
+            color: rgba(255,215,0,0.8);
+            border-radius: 50%;
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            padding: 0;
+            line-height: 1;
+        }
+        .chatbot-voice-btn:hover { background: rgba(255,215,0,0.15); border-color: #FFD700; color: #FFD700; }
+        .chatbot-voice-btn.voz-on { background: #FFD700; color: #0a0a0a; border-color: #FFD700; }
+        .chatbot-voice-btn.speaking { animation: pulse-gold 0.8s ease-in-out infinite; }
+        @keyframes pulse-gold {
+            0%,100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(255,215,0,0); }
+        }
+        .msg-speak-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: rgba(255,215,0,0.5);
+            padding: 2px 4px;
+            border-radius: 4px;
+            margin-left: 6px;
+            vertical-align: middle;
+            line-height: 1;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+        .msg-speak-btn:hover { color: #FFD700; }
+        .chatbot-message.bot {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 4px !important;
+        }
+        .msg-text { flex: 1; }
+
+
+        /* ── TIENDA AMWAY ── */
+        .amway-section {
+            padding: 4rem 2rem;
+            background: #0a0a0a;
+            text-align: center;
+            border-top: 1px solid rgba(255,215,0,0.12);
+        }
+        .amway-section h2 { font-size: 2rem; font-weight: 900; color: var(--gold); margin-bottom: 0.4rem; }
+        .amway-section .sub { font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; }
+
+        .amway-card {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 360px;
+            width: 100%;
+            background: #141414;
+            border: 1px solid rgba(255,215,0,0.25);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            text-decoration: none;
+            transition: all 0.35s;
+            position: relative;
+            overflow: hidden;
+        }
+        .amway-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00b5e2, #0070b8, #00b5e2);
+            background-size: 200%;
+            animation: amway-shine 3s linear infinite;
+        }
+        @keyframes amway-shine { 0%{background-position:0%} 100%{background-position:200%} }
+        .amway-card:hover {
+            border-color: rgba(255,215,0,0.6);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,112,184,0.2), 0 0 0 1px rgba(255,215,0,0.3);
+        }
+        .amway-logo-wrap {
+            width: 80px; height: 80px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1.2rem;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #0070b8;
+            letter-spacing: -1px;
+            box-shadow: 0 4px 16px rgba(0,112,184,0.3);
+            flex-shrink: 0;
+        }
+        .amway-card-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+        .amway-card-desc {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .amway-card-tags {
+            display: flex; flex-wrap: wrap; gap: 0.4rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .amway-tag {
+            background: rgba(0,112,184,0.15);
+            border: 1px solid rgba(0,112,184,0.35);
+            color: #7ec8f0;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+        }
+        .amway-btn {
+            background: linear-gradient(135deg,#0070b8 0%,#00b5e2 100%);
+            color: #fff;
+            border: none;
+            padding: 0.85rem 2.2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.25s;
+            box-shadow: 0 4px 16px rgba(0,112,184,0.35);
+            text-decoration: none;
+        }
+        .amway-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,112,184,0.5); }
+        @media (max-width: 480px) {
+            .amway-section h2 { font-size: 1.6rem; }
+            .amway-card { padding: 2rem 1.5rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -789,12 +1186,9 @@
                         <p style="font-size:1.1rem; color:rgba(255,255,255,0.85); margin-bottom:0.5rem;">✅ Peluquería Profesional · 19 años de experiencia</p>
                         <p style="font-size:1.1rem; color:rgba(255,255,255,0.85); margin-bottom:0.5rem;">✅ Gericultora Certificada · Cuidado de Abuelos</p>
                         <p style="font-size:1.1rem; color:rgba(255,255,255,0.85); margin-bottom:1.5rem;">✅ Creación de Páginas Web</p>
-                        <!-- Botones calculadoras -->
-                        <div style="display:flex; flex-wrap:wrap; gap:0.75rem;">
-                            <a href="https://micalculadoracolorfatima.fatimahairstudio082.com/" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; background:linear-gradient(135deg,#9c27b0,#6a1b9a); color:white; padding:0.85rem 1.4rem; border-radius:50px; font-weight:800; font-size:0.95rem; text-decoration:none; box-shadow:0 4px 16px rgba(156,39,176,0.4); transition:all 0.3s;">🎨 Calculadora Color</a>
-                            <a href="https://calcpro.fatimahairstudio082.com/" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; background:linear-gradient(135deg,#e67e22,#d35400); color:white; padding:0.85rem 1.4rem; border-radius:50px; font-weight:800; font-size:0.95rem; text-decoration:none; box-shadow:0 4px 16px rgba(230,126,34,0.4); transition:all 0.3s;">🏗️ Calculadora Construcción</a>
-                            <a href="https://fatimahairstudio082.com/" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; background:linear-gradient(135deg,#FFD700,#FFA500); color:#0a0a0a; padding:0.85rem 1.4rem; border-radius:50px; font-weight:800; font-size:0.95rem; text-decoration:none; box-shadow:0 4px 16px rgba(255,215,0,0.4); transition:all 0.3s;">💪 FitnessPro</a>
-                            <a href="https://fatimaserviciosadomicilios.fatimahairstudio082.com/" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; background:linear-gradient(135deg,#1a1a1a,#0a0a0a); color:#FFD700; border:2px solid #FFD700; padding:0.85rem 1.4rem; border-radius:50px; font-weight:800; font-size:0.95rem; text-decoration:none; box-shadow:0 4px 16px rgba(255,215,0,0.3); transition:all 0.3s;">🏠 Servicios a Particulares Fátima</a>
+                        <!-- Botón Fatima Hub centralizado -->
+                        <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center; margin-top:0.5rem;">
+                            <a href="https://fatimahairstudio082.com/" target="_blank" style="display:inline-flex; align-items:center; gap:0.6rem; background:linear-gradient(135deg,#FFD700 0%,#FFA500 100%); color:#0a0a0a; padding:1rem 2rem; border-radius:50px; font-weight:900; font-size:1rem; text-decoration:none; box-shadow:0 6px 24px rgba(255,215,0,0.45); transition:all 0.3s; letter-spacing:0.5px;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 32px rgba(255,215,0,0.6)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 6px 24px rgba(255,215,0,0.45)'">⭐ FATIMA HUB — Todos los Servicios</a>
                         </div>
                     </div>
                 </div>
@@ -1081,6 +1475,24 @@
         </section>
         
 
+
+        <!-- ===== GALERÍA DE TRABAJOS DINÁMICOS ===== -->
+        <section id="portfolioSection" class="portfolio-section">
+            <h2>📸 Galería de Proyectos</h2>
+            <p class="subtitle">Trabajos reales — actualizado desde el panel de administración</p>
+            <div class="portfolio-tabs">
+                <button class="portfolio-tab active" onclick="filterPortfolio('todos', this)">Todos</button>
+                <button class="portfolio-tab" onclick="filterPortfolio('Peluquería', this)">💇 Peluquería</button>
+                <button class="portfolio-tab" onclick="filterPortfolio('Albañilería', this)">🏗️ Albañilería</button>
+                <button class="portfolio-tab" onclick="filterPortfolio('Hostelería', this)">☕ Hostelería</button>
+                <button class="portfolio-tab" onclick="filterPortfolio('Páginas Web', this)">💻 Web</button>
+                <button class="portfolio-tab" onclick="filterPortfolio('Cuidados', this)">👵 Cuidados</button>
+            </div>
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- Cards rendered by JS -->
+            </div>
+        </section>
+
         <!-- Trabajos Reales de Peluquería -->
         <section id="trabajosSection" class="trabajos-section">
             <h2>💇 Mis Trabajos Reales</h2>
@@ -1333,6 +1745,29 @@
             </div>
         </section>
         
+
+        <!-- ===== TIENDA AMWAY ===== -->
+        <section class="amway-section">
+            <h2>🛍️ Tienda Online · Amway</h2>
+            <p class="sub">Productos de salud, belleza y nutrición de calidad profesional</p>
+
+            <a id="amway-link" href="https://www.amway.es" target="_blank" class="amway-card">
+                <div class="amway-logo-wrap">AW</div>
+                <div class="amway-card-title">Tienda Amway · Fátima</div>
+                <div class="amway-card-desc">
+                    Suplementos, nutrición deportiva, cosmética, cuidado del hogar y mucho más.<br>
+                    Distribuidora oficial — envío a toda España.
+                </div>
+                <div class="amway-card-tags">
+                    <span class="amway-tag">💊 Nutrición</span>
+                    <span class="amway-tag">💄 Belleza</span>
+                    <span class="amway-tag">🏠 Hogar</span>
+                    <span class="amway-tag">💪 Bienestar</span>
+                </div>
+                <span class="amway-btn">🛒 Ver Productos</span>
+            </a>
+        </section>
+
         <!-- Footer -->
         <footer>
             <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 1rem;">
@@ -1441,6 +1876,7 @@
                         <span>🟢 En línea — ¡Escríbenos!</span>
                     </div>
                 </div>
+                <button id="jf-voz-toggle" class="chatbot-voice-btn" onclick="toggleVoz()" title="Activar / desactivar voz">🔇</button>
             </div>
             <div class="chatbot-messages" id="chatbotMessages">
                 <div class="chatbot-message bot">
@@ -1743,7 +2179,22 @@ ${notas ? `📝 *Notas:* ${notas}` : ''}
             const messagesDiv = document.getElementById('chatbotMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `chatbot-message ${esUsuario ? 'user' : 'bot'}`;
-            messageDiv.textContent = mensaje;
+            if (!esUsuario) {
+                const textSpan = document.createElement('span');
+                textSpan.className = 'msg-text';
+                textSpan.textContent = mensaje;
+                const speakBtn = document.createElement('button');
+                speakBtn.className = 'msg-speak-btn';
+                speakBtn.title = 'Escuchar mensaje';
+                speakBtn.textContent = '🔊';
+                const msgText = mensaje;
+                speakBtn.onclick = function(e){ e.stopPropagation(); jfHablar(msgText, speakBtn); };
+                messageDiv.appendChild(textSpan);
+                messageDiv.appendChild(speakBtn);
+                if (jfVozActiva) jfHablar(mensaje, speakBtn);
+            } else {
+                messageDiv.textContent = mensaje;
+            }
             messagesDiv.appendChild(messageDiv);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
@@ -2091,6 +2542,142 @@ ${notas ? `📝 *Notas:* ${notas}` : ''}
 • Android (Chrome): menú ⋮ → Instalar aplicación");
       }
     };
+    </script>
+
+    <script>
+    /* ── Amway link management ── */
+    (function(){
+        var saved = localStorage.getItem('jf_amway_url');
+        if (saved) {
+            var el = document.getElementById('amway-link');
+            if (el) el.href = saved;
+        }
+    })();
+    </script>
+
+    <script>
+    /* ── Portfolio / Galería Dinámica ── */
+    var DEFAULT_PORTFOLIO = [
+        { id: 1, cat: 'Peluquería', title: 'Corrección de Color', desc: 'Colorimetría profesional — transformación completa', img: '' },
+        { id: 2, cat: 'Peluquería', title: 'Corte + Balayage', desc: 'Corte mariposa con mechas naturales', img: '' },
+        { id: 3, cat: 'Peluquería', title: 'Extensiones de Cabello', desc: 'Extensiones cosidas — resultado natural', img: '' },
+        { id: 4, cat: 'Albañilería', title: 'Reforma de Baño', desc: 'Renovación completa con azulejos y sanitarios nuevos', img: '' },
+        { id: 5, cat: 'Albañilería', title: 'Revestimiento de Fachada', desc: 'Rehabilitación y aislamiento térmico', img: '' },
+        { id: 6, cat: 'Páginas Web', title: 'Web Profesional', desc: 'Diseño moderno, PWA y panel de gestión', img: '' }
+    ];
+    var CAT_ICONS = { 'Peluquería':'💇', 'Albañilería':'🏗️', 'Hostelería':'☕', 'Páginas Web':'💻', 'Cuidados':'👵', 'Otro':'⭐' };
+    var _portfolioFilter = 'todos';
+
+    function getPortfolio() {
+        try {
+            var d = localStorage.getItem('jf_portfolio');
+            if (d) { var p = JSON.parse(d); if (p && p.length) return p; }
+        } catch(e) {}
+        return DEFAULT_PORTFOLIO;
+    }
+
+    function renderPortfolio() {
+        var items = getPortfolio();
+        var filtered = _portfolioFilter === 'todos' ? items : items.filter(function(i){ return i.cat === _portfolioFilter; });
+        var grid = document.getElementById('portfolioGrid');
+        if (!grid) return;
+        if (!filtered.length) {
+            grid.innerHTML = '<div class="portfolio-empty">No hay trabajos en esta categoría aún.<br>Añádelos desde el panel de administración.</div>';
+            return;
+        }
+        grid.innerHTML = filtered.map(function(item) {
+            var icon = CAT_ICONS[item.cat] || '⭐';
+            var imgHtml = item.img
+                ? '<img class="portfolio-card-img" src="' + item.img + '" alt="' + (item.title||'') + '" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">'
+                  + '<div class="portfolio-card-img-placeholder" style="display:none">' + icon + '</div>'
+                : '<div class="portfolio-card-img-placeholder">' + icon + '</div>';
+            return '<div class="portfolio-card">' +
+                imgHtml +
+                '<div class="portfolio-card-body">' +
+                '<div class="portfolio-card-cat">' + icon + ' ' + (item.cat||'') + '</div>' +
+                '<div class="portfolio-card-title">' + (item.title||'') + '</div>' +
+                '<div class="portfolio-card-desc">' + (item.desc||'') + '</div>' +
+                '</div></div>';
+        }).join('');
+    }
+
+    function filterPortfolio(cat, btn) {
+        _portfolioFilter = cat;
+        document.querySelectorAll('.portfolio-tab').forEach(function(b){ b.classList.remove('active'); });
+        if (btn) btn.classList.add('active');
+        renderPortfolio();
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+        renderPortfolio();
+        /* Apply saved portfolio avatar override */
+        var port = localStorage.getItem('jf_portada');
+        if (port) {
+            var el = document.getElementById('jf-portada-img');
+            if (el) el.src = port;
+        }
+    });
+    </script>
+
+    <script>
+    /* ════════════════════════════════════
+       VOZ — Web Speech API (es-ES Google)
+       ════════════════════════════════════ */
+    var jfVozActiva = false;
+    var jfVoiceObj  = null;
+
+    function jfCargarVoz() {
+        var voices = window.speechSynthesis.getVoices();
+        // Priority: Google es-ES → any es-ES → any Spanish
+        jfVoiceObj =
+            voices.find(function(v){ return v.lang === 'es-ES' && /google/i.test(v.name); }) ||
+            voices.find(function(v){ return v.lang === 'es-ES'; }) ||
+            voices.find(function(v){ return /^es/i.test(v.lang); }) ||
+            null;
+    }
+
+    if (window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = jfCargarVoz;
+        jfCargarVoz();
+    }
+
+    function jfHablar(texto, btn) {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel();
+        var textoLimpio = texto.replace(/[🔨☕👵💇💻ℹ️🏗️🎨🚿🏠🔧✂️👁️💁🌐📅📱⚙️🏡🤝💊🌅👤📧📱🔧✅⭐👩👨🦋🎉🏨👔]/gu, '').trim();
+        var utterance = new SpeechSynthesisUtterance(textoLimpio);
+        utterance.lang    = 'es-ES';
+        utterance.rate    = 0.92;
+        utterance.pitch   = 1.05;
+        utterance.volume  = 1.0;
+        if (jfVoiceObj) utterance.voice = jfVoiceObj;
+        if (btn) {
+            var prevText = btn.textContent;
+            btn.classList.add('speaking');
+            utterance.onend   = function(){ btn.classList.remove('speaking'); btn.textContent = prevText; };
+            utterance.onerror = function(){ btn.classList.remove('speaking'); btn.textContent = prevText; };
+            btn.textContent = '⏹';
+            btn.onclick = function(e){ e.stopPropagation(); window.speechSynthesis.cancel(); };
+        }
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function toggleVoz() {
+        jfVozActiva = !jfVozActiva;
+        var btn = document.getElementById('jf-voz-toggle');
+        if (!btn) return;
+        if (jfVozActiva) {
+            btn.textContent = '🔊';
+            btn.classList.add('voz-on');
+            btn.title = 'Voz activada — pulsa para desactivar';
+            jfHablar('¡Hola! Voz activada. ¿En qué puedo ayudarte?');
+        } else {
+            window.speechSynthesis.cancel();
+            btn.textContent = '🔇';
+            btn.classList.remove('voz-on');
+            btn.title = 'Activar voz';
+        }
+    }
     </script>
 </body>
 </html>
