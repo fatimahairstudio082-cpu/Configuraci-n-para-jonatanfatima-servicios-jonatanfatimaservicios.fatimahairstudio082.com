@@ -5,11 +5,24 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
+  "theme_color": "#FFD700",
+  "categories": ["business", "utilities"],
   "icons": [
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
     { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "WhatsApp Peluquería",
+      "url": "https://wa.me/34604822265",
+      "description": "Contactar por WhatsApp — Peluquería y Cuidados"
+    },
+    {
+      "name": "WhatsApp Albañilería",
+      "url": "https://wa.me/34679753932",
+      "description": "Contactar por WhatsApp — Albañilería y Hostelería"
+    }
   ]
 }
