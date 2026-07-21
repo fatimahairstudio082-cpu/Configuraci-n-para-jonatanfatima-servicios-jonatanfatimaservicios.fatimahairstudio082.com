@@ -1,4 +1,4 @@
-const CACHE = 'jf-servicios-v3';
+const CACHE = 'jf-servicios-v4';
 const PRECACHE = ['./', './index.html', './admin.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', e => {

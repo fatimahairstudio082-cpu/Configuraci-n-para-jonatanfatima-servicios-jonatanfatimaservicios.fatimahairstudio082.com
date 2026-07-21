@@ -20,6 +20,11 @@
         gtag('js', new Date());
         gtag('config', 'G-LHQYJWLM96');
     </script>
+    <!-- Firebase (citas, bloques, agenda, visitas — mismo proyecto que Fátima Caldea) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="./fc-firebase.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap');
@@ -1768,6 +1773,22 @@
             </a>
         </section>
 
+        <!-- ===== DESCUBRE · bloques dinámicos (Amway/enlaces/HTML) ===== -->
+        <section class="descubre-section" id="jfDescubreSection" style="display:none;padding:3rem 1.2rem;background:#0a0a0a;">
+            <h2 style="text-align:center;color:#FFD700;font-size:1.6rem;margin-bottom:0.4rem;">✨ Descubre</h2>
+            <p style="text-align:center;color:rgba(255,255,255,0.55);font-size:0.9rem;margin-bottom:1.6rem;">Enlaces y contenidos destacados</p>
+            <div id="jfBloques" style="max-width:520px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;"></div>
+        </section>
+
+        <!-- Modal de bloque (enlace incrustado o HTML propio) -->
+        <div id="jfBloqueModal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.88);flex-direction:column;">
+            <div style="flex:0 0 auto;background:#0a0a0a;padding:12px 15px;display:flex;align-items:center;gap:11px;border-bottom:1px solid rgba(255,215,0,0.25);">
+                <strong id="jfBloqueTitulo" style="flex:1;min-width:0;color:#fff;font-family:'Outfit',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Descubre</strong>
+                <button onclick="jfCerrarBloque()" style="background:transparent;border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:8px;padding:7px 12px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:0.8rem;">✕ Cerrar</button>
+            </div>
+            <iframe id="jfBloqueFrame" title="Bloque" style="flex:1;width:100%;border:0;background:#fff;"></iframe>
+        </div>
+
         <!-- Footer -->
         <footer>
             <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 1rem;">
@@ -1833,7 +1854,10 @@
             
             <div class="form-cita">
                 <label>Dirección específica (opcional)</label>
-                <input type="text" id="citaDireccion" placeholder="Ej: Calle Mayor 15, 2ºA">
+                <div style="display:flex;gap:8px;">
+                    <input type="text" id="citaDireccion" placeholder="Ej: Calle Mayor 15, 2ºA" style="flex:1;min-width:0;">
+                    <button type="button" id="jfGpsBtn" onclick="jfCitaGPS()" style="flex:0 0 auto;background:#FFD700;border:none;color:#0a0a0a;font-weight:700;border-radius:8px;padding:0 14px;cursor:pointer;font-family:inherit;white-space:nowrap;">📍 Ubicación</button>
+                </div>
             </div>
             
             <div class="form-cita">
@@ -2154,6 +2178,15 @@ ${notas ? `📝 *Notas:* ${notas}` : ''}
 
 ¿Confirman disponibilidad para esta cita?`;
             
+            // Guardar la cita en Firebase (llega al panel de admin desde cualquier móvil)
+            try {
+              if (window.FCF && window.FCF.ready()) {
+                var _cita = { origen:'jonatan', nombre:(userData&&userData.nombre)||'', telefono:(userData&&userData.telefono)||'', servicio:citaActual.servicio, zona:ubicacion, fecha:fecha, hora:hora, fechaTexto:(fecha+' '+hora), direccion:direccion||'', nota:notas||'' };
+                if (window.__jfCitaCoords) _cita.coords = window.__jfCitaCoords;
+                window.FCF.addCita(_cita).catch(function(){});
+              }
+            } catch(e){}
+
             let phoneDestino = PHONE_PAGINASWEB;
             if (citaActual.area === 'Albañilería') phoneDestino = PHONE_ALBANILERIA;
             else if (citaActual.area === 'Hostelería') phoneDestino = PHONE_HOSTELERIA;
@@ -2536,10 +2569,7 @@ ${notas ? `📝 *Notas:* ${notas}` : ''}
         _jfDeferredPrompt.prompt();
         _jfDeferredPrompt.userChoice.finally(function(){ _jfDeferredPrompt = null; var b=document.getElementById("jf-btn-install"); if(b) b.style.display="none"; });
       } else {
-        alert("Para instalar la app:
-
-• iPhone (Safari): Compartir → Añadir a pantalla de inicio
-• Android (Chrome): menú ⋮ → Instalar aplicación");
+        alert("Para instalar la app:\n\n• iPhone (Safari): Compartir → Añadir a pantalla de inicio\n• Android (Chrome): menú ⋮ → Instalar aplicación");
       }
     };
     </script>
@@ -2588,7 +2618,7 @@ ${notas ? `📝 *Notas:* ${notas}` : ''}
         grid.innerHTML = filtered.map(function(item) {
             var icon = CAT_ICONS[item.cat] || '⭐';
             var imgHtml = item.img
-                ? '<img class="portfolio-card-img" src="' + item.img + '" alt="' + (item.title||'') + '" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">'
+                ? '<img class="portfolio-card-img" src="' + item.img + '" alt="' + (item.title||'') + '" loading="lazy" onerror="this.style.display=&#39;none&#39;;this.nextElementSibling.style.display=&#39;flex&#39;">'
                   + '<div class="portfolio-card-img-placeholder" style="display:none">' + icon + '</div>'
                 : '<div class="portfolio-card-img-placeholder">' + icon + '</div>';
             return '<div class="portfolio-card">' +
@@ -2678,6 +2708,62 @@ ${notas ? `📝 *Notas:* ${notas}` : ''}
             btn.title = 'Activar voz';
         }
     }
+    </script>
+    <script>
+    /* ── Bloques (Descubre), localizador GPS y registro de visitas · Firebase ── */
+    (function(){
+      window.jfCitaGPS = function(){
+        if(!navigator.geolocation){ alert('Tu dispositivo no permite compartir ubicación. Escribe la dirección a mano.'); return; }
+        var btn=document.getElementById('jfGpsBtn'); if(btn) btn.textContent='⏳';
+        navigator.geolocation.getCurrentPosition(function(pos){
+          var lat=pos.coords.latitude, lon=pos.coords.longitude;
+          window.__jfCitaCoords={lat:lat,lng:lon};
+          fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat='+lat+'&lon='+lon)
+            .then(function(r){return r.json();})
+            .then(function(d){ var dir=(d&&d.display_name)||(lat.toFixed(5)+', '+lon.toFixed(5)); var el=document.getElementById('citaDireccion'); if(el&&!el.value.trim()) el.value=dir; if(btn) btn.textContent='📍 ✓'; })
+            .catch(function(){ var el=document.getElementById('citaDireccion'); if(el&&!el.value.trim()) el.value=lat.toFixed(5)+', '+lon.toFixed(5); if(btn) btn.textContent='📍 ✓'; });
+        }, function(){ if(btn) btn.textContent='📍 Ubicación'; alert('No se pudo obtener tu ubicación. Revisa los permisos o escribe la dirección a mano.'); }, {enableHighAccuracy:true,timeout:8000});
+      };
+
+      function openBloque(b){
+        if(b.tipo==='enlace'){ if(b.enlace) window.open(b.enlace,'_blank'); return; }
+        var m=document.getElementById('jfBloqueModal'), f=document.getElementById('jfBloqueFrame'), t=document.getElementById('jfBloqueTitulo');
+        if(!m||!f) return; if(t) t.textContent=b.titulo||'Descubre';
+        if(b.tipo==='html'){ f.removeAttribute('src'); f.srcdoc=b.html||'<p style=\'font-family:sans-serif;padding:20px\'>Bloque vac\u00edo.</p>'; }
+        else { f.removeAttribute('srcdoc'); f.src=b.enlace||'about:blank'; }
+        m.style.display='flex';
+      }
+      window.jfCerrarBloque=function(){ var m=document.getElementById('jfBloqueModal'), f=document.getElementById('jfBloqueFrame'); if(f){ f.removeAttribute('src'); f.removeAttribute('srcdoc'); } if(m) m.style.display='none'; };
+
+      function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+      function render(arr){
+        var wrap=document.getElementById('jfBloques'), sec=document.getElementById('jfDescubreSection');
+        if(!wrap) return;
+        if(!arr||!arr.length){ if(sec) sec.style.display='none'; return; }
+        if(sec) sec.style.display='block';
+        wrap.innerHTML='';
+        arr.slice().sort(function(a,b){return (a.orden||0)-(b.orden||0);}).forEach(function(b){
+          var img=b.img||'';
+          var card=document.createElement('div');
+          card.style.cssText='background:#141414;border:1px solid rgba(255,215,0,0.25);border-radius:16px;overflow:hidden;cursor:pointer;';
+          card.innerHTML='<div style="position:relative;aspect-ratio:4/3;background:#0d0d0d;">'+
+            (img?'<img src="'+esc(img)+'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display=&quot;none&quot;">':'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem;">\ud83d\udd17</div>')+
+            '<div style="position:absolute;right:8px;bottom:8px;width:34px;height:34px;border-radius:50%;background:rgba(255,215,0,0.92);color:#000;display:flex;align-items:center;justify-content:center;">\u2197</div></div>'+
+            '<div style="padding:12px 13px;"><div style="font-size:0.9rem;font-weight:700;color:#fff;">'+esc(b.titulo)+'</div>'+
+            (b.desc?'<div style="font-size:0.72rem;color:rgba(255,255,255,0.55);margin-top:4px;">'+esc(b.desc)+'</div>':'')+'</div>';
+          card.onclick=function(){ openBloque(b); };
+          wrap.appendChild(card);
+        });
+      }
+      document.addEventListener('DOMContentLoaded',function(){
+        try{
+          if(window.FCF && window.FCF.ready()){
+            window.FCF.watchBloques('jonatan', function(arr){ if(arr) render(arr); });
+            window.FCF.logVisita('jonatan');
+          }
+        }catch(e){}
+      });
+    })();
     </script>
 </body>
 </html>
