@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jonatan &amp; Fátima</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#C6A14B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="J&amp;F">
+<script src="./support.js"></script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}</script>
+</head>
+<body>
+<x-dc>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 80 56" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="56" fill="#FAF5E9"/><text x="40" y="34" text-anchor="middle" font-size="22" fill="#C6A14B">J&amp;F</text></svg></template>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#FAF5E9;font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;text-wrap:pretty;}
+a{color:#9c7d34;text-decoration:none;}
+a:hover{color:#C6A14B;}
+::selection{background:#C6A14B;color:#241F16;}
+::-webkit-scrollbar{height:0;width:0;}
+@keyframes jfGlow{0%,100%{opacity:.35;transform:scale(1);}50%{opacity:.6;transform:scale(1.08);}}
+@keyframes jfRise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+</style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="./fc-firebase.js"></script>
+</helmet>
+
+<div style="min-height:100vh;background:#FBF8F2;color:#241F16;position:relative;overflow-x:hidden;">
+
+  <!-- HEADER -->
+  <header style="position:sticky;top:0;z-index:60;background:rgba(251,248,242,0.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(184,146,58,0.4);padding:16px clamp(20px,5vw,48px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.35rem,3vw,1.6rem);font-weight:600;letter-spacing:0.3px;">Jonatan <span style="color:#B8923A;">&amp;</span> Fátima</div>
+    <nav style="display:flex;gap:clamp(16px,3vw,32px);align-items:center;flex-wrap:wrap;">
+      <a href="#servicios" style="font-size:0.82rem;color:rgba(36,31,22,0.6);font-weight:600;letter-spacing:0.5px;">Oficios</a>
+      <a href="#galeria" style="font-size:0.82rem;color:rgba(36,31,22,0.6);font-weight:600;letter-spacing:0.5px;">Trabajos</a>
+      <a href="#fotos" style="font-size:0.82rem;color:rgba(36,31,22,0.6);font-weight:600;letter-spacing:0.5px;">Fotos</a>
+      <a href="#testimonios" style="font-size:0.82rem;color:rgba(36,31,22,0.6);font-weight:600;letter-spacing:0.5px;">Opiniones</a>
+      <a href="#faq" style="font-size:0.82rem;color:rgba(36,31,22,0.6);font-weight:600;letter-spacing:0.5px;">FAQ</a>
+      <a href="#cita" style="font-size:0.82rem;color:rgba(36,31,22,0.6);font-weight:600;letter-spacing:0.5px;">Citas</a>
+      <a href="admin.html" title="Panel privado" aria-label="Panel privado" style="width:34px;height:34px;border:1px solid rgba(184,146,58,0.6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;text-decoration:none;">🔒</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section style="position:relative;padding:clamp(48px,10vw,96px) clamp(20px,5vw,48px) clamp(60px,8vw,110px);max-width:1320px;margin:0 auto;">
+    <div style="position:absolute;top:-120px;right:-80px;width:480px;height:480px;background:radial-gradient(circle,rgba(198,161,75,0.28) 0%,transparent 70%);filter:blur(10px);animation:jfGlow 7s ease-in-out infinite;pointer-events:none;"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,6vw,64px);align-items:center;position:relative;">
+      <div style="animation:jfRise 0.7s ease both;">
+        <div style="font-size:0.72rem;letter-spacing:3.5px;text-transform:uppercase;color:#9C7A2E;font-weight:700;margin-bottom:22px;">Calamocha &amp; Zaragoza</div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.3rem,6vw,4.1rem);line-height:1.06;font-weight:600;letter-spacing:-0.8px;margin-bottom:26px;">Oficios con oficio,<br>resultados con sello propio.</h1>
+        <p style="font-size:1.08rem;line-height:1.7;color:rgba(36,31,22,0.58);max-width:480px;margin-bottom:42px;font-weight:400;">Albañilería, hostelería y peluquería atendidas por las mismas manos de siempre. Cada trabajo, documentado y a la vista.</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
+          <a href="#galeria" style="border:1px solid #C6A14B;color:#9c7d34;padding:14px 30px;border-radius:100px;font-size:0.88rem;font-weight:700;letter-spacing:0.4px;">Ver trabajos</a>
+          <button onClick="{{ toggleChat }}" style="background:#C6A14B;color:#241F16;border:none;padding:14px 30px;border-radius:100px;font-size:0.88rem;font-weight:700;letter-spacing:0.4px;cursor:pointer;font-family:Outfit,sans-serif;">Habla con el asistente →</button>
+        </div>
+      </div>
+      <div style="animation:jfRise 0.9s ease both;">
+        <div style="border-radius:28px;overflow:hidden;border:1px solid rgba(184,146,58,0.55);aspect-ratio:4/5;max-width:420px;margin:0 auto;position:relative;box-shadow:0 40px 80px -20px rgba(120,90,30,0.22);">
+          <sc-if value="{{ hasPortada }}" hint-placeholder-val="{{ false }}">
+            <img src="{{ portadaSrc }}" alt="Jonatan y Fátima" style="width:100%;height:100%;object-fit:cover;display:block;" onError="this.style.display='none'"/>
+          </sc-if>
+          <sc-if value="{{ noPortada }}" hint-placeholder-val="{{ true }}">
+            <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#F2ECDD,#EADFC0);">🧑‍🔧</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS / FILTRO -->
+  <section id="servicios" style="padding:0 clamp(20px,5vw,48px) 40px;max-width:1320px;margin:0 auto;">
+    <div style="font-size:0.72rem;letter-spacing:3.5px;text-transform:uppercase;color:#9C7A2E;font-weight:700;margin-bottom:14px;">Filtra por oficio</div>
+    <div style="display:flex;gap:36px;overflow-x:auto;padding-bottom:6px;border-bottom:1px solid rgba(36,31,22,0.1);">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="4">
+        <button onClick="{{ tab.onSelect }}" style="{{ tab.style }}">{{ tab.icon }} {{ tab.name }}</button>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section id="galeria" style="padding:40px clamp(20px,5vw,48px) 110px;max-width:1320px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px;">
+      <sc-for list="{{ filtered }}" as="item" hint-placeholder-count="6">
+        <div onClick="{{ item.onClick }}" style="{{ item.cardStyle }}" style-hover="border-color:rgba(198,161,75,0.7);transform:translateY(-6px);box-shadow:0 24px 50px -18px rgba(120,90,30,0.25);">
+          <div style="position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#F2ECDD 0%,#EADFC0 100%);">
+            <sc-if value="{{ item.hasImg }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ item.imgSrc }}" alt="{{ item.title }}" style="width:100%;height:100%;object-fit:cover;display:block;" onError="this.style.display='none'"/>
+            </sc-if>
+            <sc-if value="{{ item.noImg }}" hint-placeholder-val="{{ true }}">
+              <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.6rem;opacity:0.45;">{{ item.catInfo.icon }}</div>
+            </sc-if>
+            <sc-if value="{{ item.hasLink }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(36,31,22,0.08);">
+                <div style="width:52px;height:52px;border-radius:50%;background:rgba(251,248,242,0.9);display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:#241F16;box-shadow:0 8px 20px rgba(120,90,30,0.3);">▶</div>
+              </div>
+            </sc-if>
+            <div style="position:absolute;left:12px;bottom:12px;background:rgba(251,248,242,0.85);backdrop-filter:blur(6px);border:1px solid rgba(198,161,75,0.5);color:#9c7d34;font-size:0.66rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border-radius:100px;">{{ item.catInfo.icon }} {{ item.catInfo.name }}</div>
+            <sc-if value="{{ item.editMode }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:10px;right:10px;display:flex;gap:6px;">
+                <button onClick="{{ item.onEditImg }}" style="width:32px;height:32px;border-radius:50%;background:rgba(251,248,242,0.92);border:1px solid rgba(198,161,75,0.5);cursor:pointer;font-size:0.85rem;">📷</button>
+                <button onClick="{{ item.onEdit }}" style="width:32px;height:32px;border-radius:50%;background:rgba(251,248,242,0.92);border:1px solid rgba(198,161,75,0.5);cursor:pointer;font-size:0.85rem;">✎</button>
+                <button onClick="{{ item.onDeleteJob }}" style="width:32px;height:32px;border-radius:50%;background:rgba(251,248,242,0.92);border:1px solid rgba(190,60,60,0.5);color:#a03232;cursor:pointer;font-size:0.85rem;">×</button>
+              </div>
+            </sc-if>
+          </div>
+          <div style="padding:20px 22px 24px;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;letter-spacing:0.1px;margin-bottom:6px;">{{ item.title }}</div>
+            <div style="font-size:0.85rem;line-height:1.6;color:rgba(36,31,22,0.55);">{{ item.desc }}</div>
+            <sc-if value="{{ item.hasLink }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:10px;font-size:0.76rem;font-weight:700;color:#9C7A2E;">Ver enlace →</div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+      <sc-if value="{{ editMode }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ startAddJob }}" style="background:transparent;border:2px dashed rgba(198,161,75,0.5);border-radius:20px;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#9c7d34;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:Outfit,sans-serif;">
+          <span style="font-size:1.8rem;">➕</span>Añadir trabajo
+        </button>
+      </sc-if>
+    </div>
+    <sc-if value="{{ noItems }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:70px 20px;text-align:center;color:rgba(36,31,22,0.4);font-size:0.95rem;">Todavía no hay trabajos en esta categoría.</div>
+    </sc-if>
+  </section>
+
+  <!-- EDITOR DE TARJETA -->
+  <sc-if value="{{ editorOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(36,31,22,0.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div style="background:#FFFFFF;border-radius:20px;padding:28px;width:min(440px,100%);box-shadow:0 40px 80px -20px rgba(0,0,0,0.3);">
+        <div style="font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:#9c7d34;font-weight:700;margin-bottom:16px;">{{ editorTitle }}</div>
+        <select value="{{ draftCat }}" onChange="{{ onDraftCat }}" style="width:100%;background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:12px;font-size:0.88rem;margin-bottom:10px;font-family:Outfit,sans-serif;">
+          <sc-for list="{{ categories }}" as="dopt" hint-placeholder-count="4">
+            <option value="{{ dopt.id }}">{{ dopt.icon }} {{ dopt.name }}</option>
+          </sc-for>
+        </select>
+        <input placeholder="Título del trabajo" value="{{ draftTitle }}" onChange="{{ onDraftTitle }}" style="width:100%;background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:12px 14px;font-size:0.88rem;margin-bottom:10px;"/>
+        <input placeholder="Descripción breve" value="{{ draftDesc }}" onChange="{{ onDraftDesc }}" style="width:100%;background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:12px 14px;font-size:0.88rem;margin-bottom:10px;"/>
+        <input placeholder="Enlace (Drive, YouTube o cualquier página — opcional)" value="{{ draftLink }}" onChange="{{ onDraftLink }}" style="width:100%;background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:12px 14px;font-size:0.88rem;margin-bottom:14px;"/>
+        <div style="display:flex;gap:10px;margin-bottom:14px;">
+          <button onClick="{{ pickDraftImg }}" style="background:#C6A14B;color:#241F16;border:none;padding:11px 18px;border-radius:10px;font-weight:800;font-size:0.8rem;cursor:pointer;">📷 Foto</button>
+          <sc-if value="{{ draftHasImg }}" hint-placeholder-val="{{ false }}">
+            <img src="{{ draftImgPreview }}" style="width:44px;height:44px;object-fit:cover;border-radius:8px;" onError="this.style.display='none'"/>
+          </sc-if>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button onClick="{{ saveDraft }}" style="flex:1;background:#C6A14B;color:#241F16;border:none;padding:13px;border-radius:10px;font-weight:800;font-size:0.85rem;cursor:pointer;">Guardar</button>
+          <button onClick="{{ closeEditor }}" style="background:transparent;border:1px solid rgba(36,31,22,0.2);color:rgba(36,31,22,0.6);padding:13px 20px;border-radius:10px;font-weight:600;font-size:0.85rem;cursor:pointer;">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- PIN EDICIÓN -->
+  <sc-if value="{{ pinPromptOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:rgba(36,31,22,0.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div style="background:#FFFFFF;border-radius:20px;padding:28px;width:min(300px,100%);text-align:center;">
+        <div style="font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:#9c7d34;font-weight:700;margin-bottom:14px;">Modo edición</div>
+        <input type="password" inputmode="numeric" placeholder="Clave" value="{{ editPin }}" onChange="{{ onEditPin }}" onKeyDown="{{ onEditPinKey }}" style="width:100%;text-align:center;letter-spacing:6px;font-size:1.1rem;padding:12px;background:#FBF8F2;border:1px solid rgba(184,146,58,0.55);border-radius:10px;color:#241F16;outline:none;margin-bottom:14px;"/>
+        <div style="display:flex;gap:10px;">
+          <button onClick="{{ confirmEditPin }}" style="flex:1;background:#C6A14B;color:#241F16;border:none;padding:12px;border-radius:10px;font-weight:800;font-size:0.85rem;cursor:pointer;">Entrar</button>
+          <button onClick="{{ closePinPrompt }}" style="background:transparent;border:1px solid rgba(36,31,22,0.2);color:rgba(36,31,22,0.6);padding:12px 18px;border-radius:10px;font-weight:600;font-size:0.85rem;cursor:pointer;">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- GALERÍA DE FOTOS -->
+  <section id="fotos" style="padding:0 clamp(20px,5vw,48px) 80px;max-width:1320px;margin:0 auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;gap:16px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:0.72rem;letter-spacing:3.5px;text-transform:uppercase;color:#9C7A2E;font-weight:700;margin-bottom:10px;">Galería</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:600;letter-spacing:-0.3px;">Momentos y trabajos en imágenes.</h2>
+      </div>
+      <sc-if value="{{ editMode }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ pickGalleryPhoto }}" style="background:#C6A14B;color:#241F16;border:none;padding:11px 22px;border-radius:100px;font-weight:800;font-size:0.82rem;cursor:pointer;font-family:Outfit,sans-serif;">+ Añadir foto</button>
+      </sc-if>
+    </div>
+    <sc-if value="{{ hasGallery }}" hint-placeholder-val="{{ false }}">
+      <div style="columns:2 240px;gap:16px;">
+        <sc-for list="{{ galleryItems }}" as="g" hint-placeholder-count="6">
+          <div style="break-inside:avoid;margin-bottom:16px;position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(184,146,58,0.45);cursor:pointer;" onClick="{{ g.onClick }}">
+            <img src="{{ g.src }}" alt="{{ g.caption }}" style="width:100%;display:block;object-fit:cover;" onError="this.style.display='none'"/>
+            <sc-if value="{{ g.hasCaption }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(36,31,22,0.65));color:#FAF5E9;font-size:0.78rem;padding:22px 14px 12px;">{{ g.caption }}</div>
+            </sc-if>
+            <sc-if value="{{ editMode }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ g.onDelete }}" style="position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(251,248,242,0.92);border:1px solid rgba(190,60,60,0.5);color:#a03232;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</button>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ noGallery }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:60px 20px;text-align:center;border:2px dashed rgba(184,146,58,0.4);border-radius:20px;color:rgba(36,31,22,0.4);font-size:0.9rem;">Todavía no hay fotos en la galería.</div>
+    </sc-if>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLightbox }}" style="position:fixed;inset:0;background:rgba(22,18,10,0.88);z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;">
+      <img src="{{ lightboxSrc }}" style="max-width:100%;max-height:90vh;border-radius:12px;object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,0.5);" onError="this.style.display='none'"/>
+      <button onClick="{{ closeLightbox }}" style="position:absolute;top:20px;right:20px;width:40px;height:40px;border-radius:50%;background:rgba(251,248,242,0.15);border:1px solid rgba(255,255,255,0.25);color:#FAF5E9;font-size:1.2rem;cursor:pointer;">✕</button>
+    </div>
+  </sc-if>
+
+  <!-- TESTIMONIOS -->
+  <section id="testimonios" style="padding:0 clamp(20px,5vw,48px) 80px;max-width:1320px;margin:0 auto;">
+    <div style="font-size:0.72rem;letter-spacing:3.5px;text-transform:uppercase;color:#9C7A2E;font-weight:700;margin-bottom:14px;">Opiniones</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:600;margin-bottom:32px;letter-spacing:-0.3px;">Lo que dicen nuestros clientes.</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;">
+      <sc-for list="{{ testimonialCards }}" as="t" hint-placeholder-count="3">
+        <div style="background:#FFFFFF;border:1px solid rgba(184,146,58,0.45);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:14px;">
+          <div style="font-size:1rem;color:#C6A14B;letter-spacing:3px;">{{ t.starsStr }}</div>
+          <p style="font-size:0.92rem;line-height:1.72;color:rgba(36,31,22,0.68);font-style:italic;">"{{ t.text }}"</p>
+          <div>
+            <div style="font-size:0.82rem;font-weight:700;color:#241F16;">{{ t.name }}</div>
+            <div style="font-size:0.72rem;color:#9C7A2E;margin-top:2px;">{{ t.catName }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="padding:0 clamp(20px,5vw,48px) 80px;max-width:1320px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,6vw,64px);align-items:start;">
+      <div>
+        <div style="font-size:0.72rem;letter-spacing:3.5px;text-transform:uppercase;color:#9C7A2E;font-weight:700;margin-bottom:14px;">Preguntas frecuentes</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:600;letter-spacing:-0.3px;line-height:1.15;">Todo lo que necesitas saber antes de pedir cita.</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <sc-for list="{{ faqItems }}" as="faq" hint-placeholder-count="4">
+          <div style="border-bottom:1px solid rgba(184,146,58,0.3);">
+            <button onClick="{{ faq.onToggle }}" style="width:100%;text-align:left;background:none;border:none;padding:18px 0;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:Outfit,sans-serif;">
+              <span style="font-size:0.95rem;font-weight:700;color:#241F16;line-height:1.4;">{{ faq.q }}</span>
+              <span style="font-size:1rem;color:#C6A14B;flex-shrink:0;transition:transform 0.2s;">{{ faq.icon }}</span>
+            </button>
+            <sc-if value="{{ faq.isOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 0 18px;font-size:0.9rem;line-height:1.72;color:rgba(36,31,22,0.62);">{{ faq.a }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CITA -->
+  <section id="cita" style="padding:0 clamp(20px,5vw,48px) 110px;max-width:1320px;margin:0 auto;">
+    <div style="background:#FFFFFF;border:1px solid rgba(184,146,58,0.45);border-radius:28px;padding:clamp(28px,6vw,56px);box-shadow:0 30px 70px -30px rgba(120,90,30,0.18);">
+      <div style="font-size:0.72rem;letter-spacing:3.5px;text-transform:uppercase;color:#9C7A2E;font-weight:700;margin-bottom:12px;">Pide tu cita</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,4vw,2.35rem);font-weight:600;margin-bottom:30px;max-width:560px;">Reserva día y hora, te confirmamos por WhatsApp.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:640px;">
+        <select value="{{ citCat }}" onChange="{{ onCitCat }}" style="grid-column:1/-1;background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:13px 14px;font-size:0.9rem;font-family:Outfit,sans-serif;">
+          <sc-for list="{{ categories }}" as="copt" hint-placeholder-count="4">
+            <option value="{{ copt.id }}">{{ copt.icon }} {{ copt.name }}</option>
+          </sc-for>
+        </select>
+        <input placeholder="Tu nombre" value="{{ citName }}" onChange="{{ onCitName }}" style="background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:13px 14px;font-size:0.9rem;"/>
+        <input placeholder="Tu teléfono" value="{{ citPhone }}" onChange="{{ onCitPhone }}" style="background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:13px 14px;font-size:0.9rem;"/>
+        <input type="date" value="{{ citDate }}" onChange="{{ onCitDate }}" style="background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:13px 14px;font-size:0.9rem;"/>
+        <input type="time" value="{{ citTime }}" onChange="{{ onCitTime }}" style="background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:13px 14px;font-size:0.9rem;"/>
+        <div style="grid-column:1/-1;display:flex;gap:8px;align-items:stretch;">
+          <input placeholder="Dirección del servicio (opcional)" value="{{ citAddress }}" onChange="{{ onCitAddress }}" style="flex:1;background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:13px 14px;font-size:0.9rem;"/>
+          <button onClick="{{ captureGPS }}" disabled="{{ gpsLoading }}" style="background:#FBF8F2;border:1px solid rgba(184,146,58,0.55);border-radius:10px;padding:0 16px;cursor:pointer;font-size:1rem;color:#9C7A2E;white-space:nowrap;font-family:Outfit,sans-serif;font-size:0.82rem;font-weight:700;">{{ gpsLabel }}</button>
+        </div>
+        <input placeholder="Nota (opcional)" value="{{ citNote }}" onChange="{{ onCitNote }}" style="grid-column:1/-1;background:#FBF8F2;border:1px solid rgba(184,146,58,0.45);border-radius:10px;color:#241F16;padding:13px 14px;font-size:0.9rem;"/>
+      </div>
+      <button onClick="{{ submitCita }}" style="margin-top:20px;background:#C6A14B;color:#241F16;border:none;padding:15px 32px;border-radius:100px;font-weight:800;font-size:0.9rem;cursor:pointer;">Confirmar cita por WhatsApp →</button>
+      <div style="margin-top:36px;">
+        <div style="font-size:0.72rem;letter-spacing:2.5px;text-transform:uppercase;color:#9C7A2E;font-weight:700;margin-bottom:14px;">Zonas de cobertura</div>
+        <div ref="{{ mapRef }}" style="height:300px;border-radius:16px;overflow:hidden;border:1px solid rgba(184,146,58,0.45);"></div>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:12px;font-size:0.78rem;color:rgba(36,31,22,0.5);">
+          <span>● Calamocha · Peluquería (~35 km)</span>
+          <span>● Zaragoza · Albañilería &amp; Hostelería (~20 km)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESCUBRE -->
+  <sc-if value="{{ hasBloques }}" hint-placeholder-val="{{ false }}">
+    <section id="descubre" style="padding:0 clamp(20px,5vw,48px) 80px;max-width:1320px;margin:0 auto;">
+      <div style="font-size:0.72rem;letter-spacing:3.5px;text-transform:uppercase;color:#9C7A2E;font-weight:700;margin-bottom:14px;">Descubre</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:600;margin-bottom:28px;letter-spacing:-0.3px;">Enlaces y contenidos destacados.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px;">
+        <sc-for list="{{ bloquesView }}" as="b" hint-placeholder-count="2">
+          <div onClick="{{ b.onOpen }}" style="background:#FFFFFF;border:1px solid rgba(184,146,58,0.45);border-radius:20px;overflow:hidden;cursor:pointer;">
+            <div style="position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#F2ECDD,#EADFC0);">
+              <sc-if value="{{ b.hasImg }}" hint-placeholder-val="{{ true }}">
+                <img src="{{ b.img }}" alt="{{ b.titulo }}" style="width:100%;height:100%;object-fit:cover;display:block;" onError="this.style.display='none'"/>
+              </sc-if>
+              <sc-if value="{{ b.noImg }}" hint-placeholder-val="{{ false }}">
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.4rem;opacity:0.5;">\ud83d\udd17</div>
+              </sc-if>
+              <div style="position:absolute;right:12px;bottom:12px;width:40px;height:40px;border-radius:50%;background:rgba(251,248,242,0.92);display:flex;align-items:center;justify-content:center;color:#9c7d34;box-shadow:0 8px 20px rgba(120,90,30,0.3);">\u2197</div>
+            </div>
+            <div style="padding:18px 20px 20px;">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;margin-bottom:4px;">{{ b.titulo }}</div>
+              <sc-if value="{{ b.hasDesc }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:0.82rem;line-height:1.5;color:rgba(36,31,22,0.55);">{{ b.desc }}</div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+  <!-- MODAL BLOQUE -->
+  <sc-if value="{{ hasBloqueModal }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:210;background:rgba(22,18,10,0.9);display:flex;flex-direction:column;">
+      <div style="flex:0 0 auto;background:#FBF8F2;padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(184,146,58,0.45);">
+        <strong style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#241F16;">{{ modalTitulo }}</strong>
+        <button onClick="{{ onCloseBloque }}" style="background:transparent;border:1px solid rgba(36,31,22,0.25);color:#241F16;border-radius:8px;padding:8px 14px;cursor:pointer;font-family:Outfit,sans-serif;">\u2715 Cerrar</button>
+      </div>
+      <iframe id="jf-bloque-frame" title="Bloque" style="flex:1;width:100%;border:0;background:#fff;"></iframe>
+    </div>
+  </sc-if>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(184,146,58,0.4);padding:32px clamp(20px,5vw,48px);display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;color:rgba(36,31,22,0.45);font-size:0.8rem;">
+    <div>© 2026 Jonatan &amp; Fátima · Calamocha &amp; Zaragoza</div>
+    <div style="display:flex;gap:16px;align-items:center;">
+      <button onClick="{{ toggleEditMode }}" style="background:transparent;border:none;color:rgba(36,31,22,0.35);font-size:0.75rem;cursor:pointer;font-family:Outfit,sans-serif;">{{ editModeLabel }}</button>
+      <a href="admin.html" style="color:rgba(36,31,22,0.35);font-size:0.75rem;">Panel privado</a>
+    </div>
+  </footer>
+
+  <!-- CHATBOT -->
+  <div style="position:fixed;right:clamp(12px,4vw,28px);bottom:clamp(12px,4vw,28px);z-index:80;display:flex;flex-direction:column;align-items:flex-end;gap:14px;">
+    <sc-if value="{{ chatOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="width:min(340px,calc(100vw - 32px));background:#FFFFFF;border:1px solid rgba(184,146,58,0.55);border-radius:18px;box-shadow:0 24px 60px -12px rgba(120,90,30,0.3);display:flex;flex-direction:column;overflow:hidden;">
+        <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:linear-gradient(135deg,#F8F2E4,#F2E6C4);border-bottom:1px solid rgba(184,146,58,0.45);">
+          <div style="width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid #C6A14B;flex-shrink:0;background:#FBF8F2;display:flex;align-items:center;justify-content:center;">
+            <sc-if value="{{ hasAvatar }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ avatarSrc }}" style="width:100%;height:100%;object-fit:cover;" onError="this.style.display='none'"/>
+            </sc-if>
+            <sc-if value="{{ noAvatar }}" hint-placeholder-val="{{ true }}">
+              <span style="font-size:1.1rem;">🤖</span>
+            </sc-if>
+          </div>
+          <div style="flex:1;line-height:1.2;">
+            <div style="font-size:0.86rem;font-weight:800;color:#241F16;">Asistente</div>
+            <div style="font-size:0.68rem;color:rgba(36,31,22,0.5);">Jonatan &amp; Fátima</div>
+          </div>
+          <button onClick="{{ toggleVoice }}" style="{{ voiceBtnStyle }}">🔊</button>
+          <button onClick="{{ toggleChat }}" style="background:transparent;border:none;color:rgba(36,31,22,0.5);font-size:1rem;cursor:pointer;">✕</button>
+        </div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:10px;max-height:260px;overflow-y:auto;">
+          <sc-for list="{{ messages }}" as="m" hint-placeholder-count="1">
+            <div style="{{ m.bubbleStyle }}">
+              {{ m.text }}
+              <sc-if value="{{ m.isBot }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ m.onSpeak }}" style="background:transparent;border:none;color:rgba(156,125,52,0.7);cursor:pointer;font-size:0.72rem;margin-left:6px;">▶</button>
+              </sc-if>
+            </div>
+          </sc-for>
+          <sc-if value="{{ isBooking }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px;background:#F8F2E4;border:1px solid rgba(184,146,58,0.45);border-radius:12px;padding:12px;">
+              <input placeholder="Tu nombre" value="{{ citName }}" onChange="{{ onCitName }}" style="background:#FFFFFF;border:1px solid rgba(184,146,58,0.45);border-radius:8px;color:#241F16;padding:9px 10px;font-size:0.8rem;font-family:Outfit,sans-serif;"/>
+              <input placeholder="Tu teléfono" value="{{ citPhone }}" onChange="{{ onCitPhone }}" style="background:#FFFFFF;border:1px solid rgba(184,146,58,0.45);border-radius:8px;color:#241F16;padding:9px 10px;font-size:0.8rem;font-family:Outfit,sans-serif;"/>
+              <div style="display:flex;gap:8px;">
+                <input type="date" value="{{ citDate }}" onChange="{{ onCitDate }}" style="flex:1;background:#FFFFFF;border:1px solid rgba(184,146,58,0.45);border-radius:8px;color:#241F16;padding:9px 10px;font-size:0.78rem;font-family:Outfit,sans-serif;"/>
+                <input type="time" value="{{ citTime }}" onChange="{{ onCitTime }}" style="flex:1;background:#FFFFFF;border:1px solid rgba(184,146,58,0.45);border-radius:8px;color:#241F16;padding:9px 10px;font-size:0.78rem;font-family:Outfit,sans-serif;"/>
+              </div>
+              <div style="display:flex;gap:6px;align-items:stretch;">
+                <input placeholder="Dirección (opcional)" value="{{ citAddress }}" onChange="{{ onCitAddress }}" style="flex:1;background:#FFFFFF;border:1px solid rgba(184,146,58,0.45);border-radius:8px;color:#241F16;padding:9px 10px;font-size:0.8rem;font-family:Outfit,sans-serif;"/>
+                <button onClick="{{ captureGPS }}" disabled="{{ gpsLoading }}" style="background:#FFFFFF;border:1px solid rgba(184,146,58,0.55);border-radius:8px;padding:0 10px;cursor:pointer;color:#9C7A2E;font-size:0.78rem;font-weight:700;font-family:Outfit,sans-serif;white-space:nowrap;">{{ gpsLabel }}</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <div style="padding:10px 14px 16px;display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(36,31,22,0.08);">
+          <sc-for list="{{ options }}" as="opt" hint-placeholder-count="3">
+            <button onClick="{{ opt.onClick }}" style="background:#FBF8F2;border:1px solid rgba(184,146,58,0.55);color:#9c7d34;padding:9px 14px;border-radius:100px;font-size:0.76rem;font-weight:700;cursor:pointer;font-family:Outfit,sans-serif;">{{ opt.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <button onClick="{{ toggleChat }}" style="width:60px;height:60px;border-radius:50%;background:#FFFFFF;border:2px solid #C6A14B;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px -8px rgba(184,146,58,0.6);">
+      <sc-if value="{{ hasAvatar }}" hint-placeholder-val="{{ false }}">
+        <img src="{{ avatarSrc }}" style="width:100%;height:100%;object-fit:cover;" onError="this.style.display='none'"/>
+      </sc-if>
+      <sc-if value="{{ noAvatar }}" hint-placeholder-val="{{ true }}">
+        <span style="font-size:1.6rem;">🤖</span>
+      </sc-if>
+    </button>
+  </div>
+
+  <input type="file" ref="{{ fileInputRef }}" accept="image/*" style="display:none;" onChange="{{ handleFile }}"/>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    categories: [], portfolio: [], testimonials: [], gallery: [], faqs: [], bloques: [], bloqueModal: null, activeCat: 'all', portada: null,
+    openFaq: null,
+    lightboxPhoto: null,
+    avatar: null, chatOpen: false, voiceOn: false, stage: 'menu', selectedCat: null,
+    messages: [{ id: 'greet', from: 'bot', text: '¡Hola! Soy el asistente de Jonatan & Fátima. ¿En qué oficio puedo ayudarte?' }],
+    citCat: '', citName: '', citPhone: '', citDate: '', citTime: '', citNote: '', citAddress: '', gpsLoading: false,
+    editMode: false, pinPromptOpen: false, editPin: '',
+    editorOpen: false, editingId: null, draftCat: '', draftTitle: '', draftDesc: '', draftLink: '', draftImg: ''
+  };
+
+  static defaultFaqs = [
+    { id: 'f1', q: '¿En qué zonas trabajáis?', a: 'Cubrimos Calamocha y alrededores para peluquería, y toda la provincia de Zaragoza para albañilería, reformas y hostelería.' },
+    { id: 'f2', q: '¿Cómo puedo pedir presupuesto?', a: 'Puedes usar el chat de esta página, rellenar el formulario de cita o escribirnos directamente por WhatsApp. Respondemos en el mismo día.' },
+    { id: 'f3', q: '¿Ofrecéis servicio a domicilio?', a: 'Sí, para peluquería y hostelería nos desplazamos al lugar que necesites. Indícalo al reservar tu cita.' },
+    { id: 'f4', q: '¿Cuánto tiempo lleva una reforma?', a: 'Depende del tipo de obra. Un baño completo suele llevar entre 1 y 3 semanas. Te damos plazos exactos en el presupuesto.' },
+  ];
+
+  static defaultTestimonials = [
+    { id: 't1', catId: 'peluqueria', name: 'María G.', text: 'Fátima me dejó el pelo precioso para mi boda. Muy profesional y atenta con todos los detalles.', stars: 5 },
+    { id: 't2', catId: 'albanileria', name: 'Carlos R.', text: 'Reformaron mi baño en tiempo récord. Materiales de calidad y acabados impecables.', stars: 5 },
+    { id: 't3', catId: 'hosteleria', name: 'Ana L.', text: 'El servicio para el evento fue perfecto. Todo el mundo encantado con la organización.', stars: 5 },
+  ];
+
+  static defaultCategories = [
+    { id: 'peluqueria', name: 'Peluquería', icon: '💇', phone: '34604822265' },
+    { id: 'albanileria', name: 'Albañilería & Reformas', icon: '🏗️', phone: '34679753932' },
+    { id: 'hosteleria', name: 'Hostelería', icon: '🍽️', phone: '34679753932' },
+    { id: 'web', name: 'Páginas Web', icon: '💻', phone: '34679753932' }
+  ];
+
+  static defaultPortfolio = [
+    { id: 1, catId: 'peluqueria', title: 'Corrección de color', desc: 'Transformación completa, antes y después.', img: null, link: null },
+    { id: 2, catId: 'peluqueria', title: 'Peinado de novia', desc: 'Recogido para boda con prueba previa.', img: null, link: null },
+    { id: 3, catId: 'albanileria', title: 'Reforma de baño', desc: 'Alicatado, fontanería y acabados a medida.', img: null, link: null },
+    { id: 4, catId: 'albanileria', title: 'Muro en piedra vista', desc: 'Cerramiento exterior en piedra natural.', img: null, link: null },
+    { id: 5, catId: 'hosteleria', title: 'Servicio de eventos', desc: 'Catering y montaje para 80 invitados.', img: null, link: null },
+    { id: 6, catId: 'web', title: 'Web para negocio local', desc: 'Diseño y puesta en marcha en una semana.', img: null, link: null }
+  ];
+
+  static mediaThumb(link) {
+    if (!link) return { thumb: null, isMedia: false };
+    let m = link.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{6,})/);
+    if (m) return { thumb: `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg`, isMedia: true };
+    m = link.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=)([a-zA-Z0-9_-]+)/);
+    if (m) return { thumb: `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`, isMedia: true };
+    return { thumb: null, isMedia: true };
+  }
+
+  componentDidMount() {
+    this.fileInputRef = React.createRef();
+    this.mapRef = React.createRef();
+    this.editTarget = null;
+    this.load();
+    try { if (window.FCF && window.FCF.ready()) { this._unsubBloques = window.FCF.watchBloques('jonatan', (arr) => { if (arr) this.setState({ bloques: arr }); }); window.FCF.logVisita('jonatan'); } } catch (e) {}
+    this._onStorage = () => this.load();
+    window.addEventListener('storage', this._onStorage);
+    try { if (sessionStorage.getItem('jf_edit_unlocked') === '1') this.setState({ editMode: true }); } catch (e) {}
+    if (window.L) { setTimeout(() => this.initMap(), 100); }
+    else {
+      const s = document.createElement('script');
+      s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      s.integrity = 'sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH';
+      s.crossOrigin = 'anonymous';
+      s.onload = () => this.initMap();
+      document.head.appendChild(s);
+    }
+  }
+  initMap() {
+    if (!window.L || !this.mapRef || !this.mapRef.current) return;
+    if (this._map) { this._map.remove(); }
+    const L = window.L;
+    const map = L.map(this.mapRef.current, { scrollWheelZoom: false });
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors', maxZoom: 18 }).addTo(map);
+    const icon = L.divIcon({ className: '', html: '<div style="width:16px;height:16px;background:#C6A14B;border-radius:50%;border:2.5px solid #241F16;box-shadow:0 2px 10px rgba(198,161,75,0.7);"></div>', iconSize: [16, 16], iconAnchor: [8, 8] });
+    L.marker([40.9175, -1.2889], { icon }).addTo(map).bindPopup('<b>Calamocha</b><br><small style="color:#9C7A2E">Peluquería</small>');
+    L.circle([40.9175, -1.2889], { radius: 35000, color: '#C6A14B', fillColor: '#C6A14B', fillOpacity: 0.09, weight: 1.5, dashArray: '6,4' }).addTo(map);
+    L.marker([41.6488, -0.8891], { icon }).addTo(map).bindPopup('<b>Zaragoza</b><br><small style="color:#9C7A2E">Albañilería &amp; Hostelería</small>');
+    L.circle([41.6488, -0.8891], { radius: 20000, color: '#C6A14B', fillColor: '#C6A14B', fillOpacity: 0.09, weight: 1.5, dashArray: '6,4' }).addTo(map);
+    map.fitBounds([[40.3, -1.85], [42.1, -0.35]], { padding: [24, 24] });
+    this._map = map;
+    setTimeout(() => map.invalidateSize(), 250);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('storage', this._onStorage);
+    if (this._unsubBloques) { this._unsubBloques(); this._unsubBloques = null; }
+    if (this._map) { this._map.remove(); this._map = null; }
+  }
+
+  load() {
+    let categories = Component.defaultCategories;
+    try { const raw = localStorage.getItem('jf_categories'); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) categories = p; } } catch (e) {}
+    let portfolio = Component.defaultPortfolio;
+    try { const raw = localStorage.getItem('jf_portfolio'); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) portfolio = p; } } catch (e) {}
+    let portada = null;
+    try { portada = localStorage.getItem('jf_portada'); } catch (e) {}
+    let avatar = null;
+    try { avatar = localStorage.getItem('jf_chatbot_avatar'); } catch (e) {}
+    let testimonials = Component.defaultTestimonials;
+    try { const raw = localStorage.getItem('jf_testimonials'); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) testimonials = p; } } catch (e) {}
+    let gallery = [];
+    try { const raw = localStorage.getItem('jf_gallery'); if (raw) gallery = JSON.parse(raw) || []; } catch (e) {}
+    let faqs = Component.defaultFaqs;
+    try { const raw = localStorage.getItem('jf_faqs'); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) faqs = p; } } catch (e) {}
+    this.setState(s => ({ categories, portfolio, testimonials, gallery, faqs, portada, avatar, citCat: s.citCat || (categories[0] && categories[0].id) || '' }));
+  }
+
+  pushBot(text) {
+    const msg = { id: Date.now() + Math.random(), from: 'bot', text };
+    this.setState(s => ({ messages: [...s.messages, msg] }));
+    if (this.state.voiceOn) this.speak(text);
+  }
+
+  speak(text) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'es-ES';
+    window.speechSynthesis.speak(u);
+  }
+
+  toggleVoice() {
+    const on = !this.state.voiceOn;
+    this.setState({ voiceOn: on });
+    if (!on) window.speechSynthesis.cancel();
+  }
+
+  toggleChat() { this.setState(s => ({ chatOpen: !s.chatOpen })); }
+
+  selectCategory(id) {
+    const cat = this.state.categories.find(c => c.id === id);
+    if (!cat) return;
+    this.setState({ stage: 'cat', selectedCat: id });
+    this.pushBot(`Perfecto, para ${cat.name}: ¿prefieres escribir ya por WhatsApp o reservar cita aquí mismo?`);
+  }
+
+  backToMenu() {
+    this.setState({ stage: 'menu', selectedCat: null });
+    this.pushBot('¿En qué más puedo ayudarte?');
+  }
+
+  showTrabajos() {
+    this.pushBot('Aquí tienes nuestros trabajos reales, un poco más abajo en la página.');
+    const el = document.getElementById('galeria');
+    if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+  }
+
+  startBooking() {
+    const cat = this.state.categories.find(c => c.id === this.state.selectedCat);
+    this.setState({ stage: 'booking', citCat: this.state.selectedCat });
+    this.pushBot(`Vale, cuéntame: nombre, teléfono, fecha y hora para tu cita de ${cat ? cat.name : ''}.`);
+  }
+
+  waLink(cat) {
+    const phone = (cat.phone || '').replace(/\D/g, '');
+    const msg = encodeURIComponent('Hola, os escribo desde la web sobre ' + cat.name + '.');
+    return phone ? `https://wa.me/${phone}?text=${msg}` : '#';
+  }
+
+  savePortfolio(arr) { localStorage.setItem('jf_portfolio', JSON.stringify(arr)); this.setState({ portfolio: arr }); }
+
+  captureGPS() {
+    if (!navigator.geolocation) { alert('Tu navegador no soporta geolocalización.'); return; }
+    this.setState({ gpsLoading: true });
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const { latitude: lat, longitude: lon } = pos.coords;
+        this._citaCoords = { lat, lng: lon };
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+          .then(r => r.json())
+          .then(d => { this.setState({ citAddress: d.display_name || `${lat.toFixed(5)}, ${lon.toFixed(5)}`, gpsLoading: false }); })
+          .catch(() => { this.setState({ citAddress: `${lat.toFixed(5)}, ${lon.toFixed(5)}`, gpsLoading: false }); });
+      },
+      () => { this.setState({ gpsLoading: false }); alert('No se pudo obtener la ubicación. Verifica los permisos del navegador.'); },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  }
+  saveGallery(arr) { localStorage.setItem('jf_gallery', JSON.stringify(arr)); this.setState({ gallery: arr }); }
+  deleteGalleryPhoto(id) { if (!confirm('¿Eliminar esta foto?')) return; this.saveGallery(this.state.gallery.filter(g => g.id !== id)); }
+  pickGalleryPhoto() { this.editTarget = 'gallery'; this.fileInputRef.current.click(); }
+
+  toggleEditMode() {
+    if (this.state.editMode) { this.setState({ editMode: false }); try { sessionStorage.removeItem('jf_edit_unlocked'); } catch (e) {} }
+    else this.setState({ pinPromptOpen: true, editPin: '' });
+  }
+
+  confirmEditPin() {
+    if (this.state.editPin === '0824') {
+      try { sessionStorage.setItem('jf_edit_unlocked', '1'); } catch (e) {}
+      this.setState({ editMode: true, pinPromptOpen: false, editPin: '' });
+    } else { alert('Clave incorrecta.'); this.setState({ editPin: '' }); }
+  }
+
+  startAddJob() {
+    const cat = this.state.activeCat !== 'all' ? this.state.activeCat : (this.state.categories[0] && this.state.categories[0].id) || '';
+    this.setState({ editorOpen: true, editingId: null, draftCat: cat, draftTitle: '', draftDesc: '', draftLink: '', draftImg: '' });
+  }
+
+  startEditJob(job) {
+    this.setState({ editorOpen: true, editingId: job.id, draftCat: job.catId, draftTitle: job.title, draftDesc: job.desc || '', draftLink: job.link || '', draftImg: job.img || '' });
+  }
+
+  pickJobImage(job) {
+    this.editTarget = job.id;
+    this.fileInputRef.current.click();
+  }
+
+  pickDraftImg() {
+    this.editTarget = 'draft';
+    this.fileInputRef.current.click();
+  }
+
+  handleFile(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const max = 1100, sc = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * sc); c.height = Math.round(img.height * sc);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      const data = c.toDataURL('image/jpeg', 0.82);
+      if (this.editTarget === 'draft') { this.setState({ draftImg: data }); }
+      else if (this.editTarget === 'gallery') { this.saveGallery([...this.state.gallery, { id: Date.now(), src: data, caption: '' }]); }
+      else if (this.editTarget) { this.savePortfolio(this.state.portfolio.map(p => p.id === this.editTarget ? { ...p, img: data } : p)); }
+    };
+    img.src = url;
+    e.target.value = '';
+  }
+
+  saveDraft() {
+    const { editingId, draftCat, draftTitle, draftDesc, draftLink, draftImg, portfolio, categories } = this.state;
+    if (!draftTitle.trim()) { alert('Escribe un título.'); return; }
+    if (!draftCat) { alert('Selecciona una categoría.'); return; }
+    if (editingId) {
+      this.savePortfolio(portfolio.map(p => p.id === editingId ? { ...p, catId: draftCat, title: draftTitle.trim(), desc: draftDesc.trim(), link: draftLink.trim() || null, img: draftImg || null } : p));
+    } else {
+      this.savePortfolio([...portfolio, { id: Date.now(), catId: draftCat, title: draftTitle.trim(), desc: draftDesc.trim(), link: draftLink.trim() || null, img: draftImg || null }]);
+    }
+    this.setState({ editorOpen: false, editingId: null });
+  }
+
+  deleteJob(id) {
+    if (!confirm('¿Eliminar este trabajo?')) return;
+    this.savePortfolio(this.state.portfolio.filter(p => p.id !== id));
+  }
+
+  confirmBooking() {
+    const { citCat, citName, citPhone, citDate, citTime, citNote, citAddress, categories, chatOpen } = this.state;
+    if (!citName.trim() || !citPhone.trim() || !citDate || !citTime) { alert('Rellena nombre, teléfono, fecha y hora.'); return; }
+    const cat = categories.find(c => c.id === citCat) || categories[0] || {};
+    const appt = { id: Date.now(), catId: cat.id || '', catName: cat.name || '', name: citName.trim(), phone: citPhone.trim(), date: citDate, time: citTime, address: (citAddress || '').trim(), note: (citNote || '').trim(), status: 'pendiente' };
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem('jf_appointments') || '[]'); } catch (e) {}
+    list.push(appt);
+    localStorage.setItem('jf_appointments', JSON.stringify(list));
+    try {
+      if (window.FCF && window.FCF.ready()) {
+        const _c = { origen: 'jonatan', nombre: citName.trim(), telefono: citPhone.trim(), servicio: cat.name || '', zona: '', fecha: citDate, hora: citTime, fechaTexto: citDate + ' ' + citTime, direccion: (citAddress || '').trim(), nota: (citNote || '').trim() };
+        if (this._citaCoords) _c.coords = this._citaCoords;
+        window.FCF.addCita(_c).catch(() => {});
+      }
+    } catch (e) {}
+    const phone = (cat.phone || '').replace(/\D/g, '');
+    const msg = encodeURIComponent(`Hola, quiero reservar cita.\nOficio: ${cat.name || ''}\nNombre: ${citName.trim()}\nTeléfono: ${citPhone.trim()}\nFecha: ${citDate}\nHora: ${citTime}${appt.address ? '\nDirección: ' + appt.address : ''}${appt.note ? '\nNota: ' + appt.note : ''}`);
+    if (phone) window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+    if (chatOpen) this.pushBot(`Cita registrada para ${cat.name || ''} el ${citDate} a las ${citTime}. Te confirmamos por WhatsApp.`);
+    this.setState({ stage: 'menu', selectedCat: null, citName: '', citPhone: '', citDate: '', citTime: '', citAddress: '', citNote: '' });
+  }
+
+  openBloque(b) {
+    if (!b) return;
+    if (b.tipo === 'enlace') { if (b.enlace) window.open(b.enlace, '_blank'); return; }
+    this.setState({ bloqueModal: b }, () => {
+      setTimeout(() => {
+        const f = document.getElementById('jf-bloque-frame');
+        if (!f) return;
+        if (b.tipo === 'html') { f.removeAttribute('src'); f.srcdoc = b.html || '<p style=\"font-family:sans-serif;padding:20px\">Bloque vac\u00edo.</p>'; }
+        else { f.removeAttribute('srcdoc'); f.src = b.enlace || 'about:blank'; }
+      }, 40);
+    });
+  }
+
+  renderVals() {
+    const { categories, portfolio, activeCat, portada, avatar, chatOpen, voiceOn, stage, selectedCat, messages, citCat, citName, citPhone, citDate, citTime, citNote, citAddress, editMode, pinPromptOpen, editPin, editorOpen, editingId, draftCat, draftTitle, draftDesc, draftLink, draftImg } = this.state;
+    const catById = {};
+    categories.forEach(c => catById[c.id] = c);
+
+    const renderedMessages = messages.map(m => ({
+      ...m,
+      isBot: m.from === 'bot',
+      bubbleStyle: {
+        alignSelf: m.from === 'bot' ? 'flex-start' : 'flex-end',
+        background: m.from === 'bot' ? '#F8F2E4' : '#C6A14B',
+        color: m.from === 'bot' ? '#241F16' : '#241F16',
+        border: m.from === 'bot' ? '1px solid rgba(184,146,58,0.45)' : 'none',
+        borderRadius: '12px', padding: '10px 12px', fontSize: '0.84rem', lineHeight: 1.5, maxWidth: '90%'
+      },
+      onSpeak: () => this.speak(m.text)
+    }));
+
+    let options;
+    if (stage === 'booking') {
+      options = [
+        { id: 'confirm', label: '✅ Confirmar cita', onClick: () => this.confirmBooking() },
+        { id: 'back', label: '← Cancelar', onClick: () => this.backToMenu() }
+      ];
+    } else if (stage === 'cat') {
+      const cat = catById[selectedCat] || {};
+      const phone = (cat.phone || '').replace(/\D/g, '');
+      const link = phone ? `https://wa.me/${phone}?text=${encodeURIComponent('Hola, os escribo desde el chat de la web sobre ' + cat.name + '.')}` : '#';
+      options = [
+        { id: 'wa', label: '💬 Escribir por WhatsApp', onClick: () => window.open(link, '_blank') },
+        { id: 'cita', label: '📅 Reservar cita aquí', onClick: () => this.startBooking() },
+        { id: 'back', label: '← Volver al menú', onClick: () => this.backToMenu() }
+      ];
+    } else {
+      options = [
+        ...categories.map(c => ({ id: c.id, label: `${c.icon} ${c.name}`, onClick: () => this.selectCategory(c.id) })),
+        { id: 'trabajos', label: '📸 Ver trabajos', onClick: () => this.showTrabajos() }
+      ];
+    }
+
+    const tabBase = { padding: '10px 0', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Outfit,sans-serif', fontSize: '0.92rem', fontWeight: 700, whiteSpace: 'nowrap' };
+    const tabs = [{ id: 'all', name: 'Todos', icon: '✨' }, ...categories].map(c => ({
+      ...c,
+      onSelect: () => this.setState({ activeCat: c.id }),
+      style: { ...tabBase, color: activeCat === c.id ? '#9c7d34' : 'rgba(36,31,22,0.5)', borderBottom: activeCat === c.id ? '2px solid #C6A14B' : '2px solid transparent' }
+    }));
+
+    const filtered = (activeCat === 'all' ? portfolio : portfolio.filter(p => p.catId === activeCat)).map(p => {
+      const catInfo = catById[p.catId] || { name: 'Otro', icon: '⭐' };
+      const media = Component.mediaThumb(p.link);
+      const imgSrc = p.img || media.thumb;
+      const hasLink = !!p.link;
+      return {
+        ...p, catInfo, imgSrc, hasImg: !!imgSrc, noImg: !imgSrc, hasLink, editMode,
+        onClick: (!editMode && hasLink) ? (() => window.open(p.link, '_blank')) : undefined,
+        onEditImg: () => this.pickJobImage(p),
+        onEdit: () => this.startEditJob(p),
+        onDeleteJob: () => this.deleteJob(p.id),
+        cardStyle: { background: '#FFFFFF', border: '1px solid rgba(184,146,58,0.45)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.35s', cursor: (!editMode && hasLink) ? 'pointer' : 'default' }
+      };
+    });
+
+    const { gallery, lightboxPhoto, faqs, openFaq } = this.state;
+    const faqItems = faqs.map(f => ({
+      ...f,
+      isOpen: openFaq === f.id,
+      icon: openFaq === f.id ? '−' : '+',
+      onToggle: () => this.setState({ openFaq: openFaq === f.id ? null : f.id })
+    }));
+
+
+    const galleryItems = gallery.map(g => ({
+      ...g, hasCaption: !!g.caption,
+      onClick: () => this.setState({ lightboxPhoto: g }),
+      onDelete: e => { e.stopPropagation(); this.deleteGalleryPhoto(g.id); }
+    }));
+
+    const testimonialCards = this.state.testimonials.map(t => {
+      const cat = catById[t.catId] || { name: '' };
+      return { ...t, starsStr: '★'.repeat(t.stars || 5), catName: cat.name };
+    });
+
+    return {
+      tabs,
+      filtered,
+      faqItems,
+      galleryItems, hasGallery: galleryItems.length > 0, noGallery: galleryItems.length === 0,
+      pickGalleryPhoto: () => this.pickGalleryPhoto(),
+      lightboxOpen: !!lightboxPhoto, lightboxSrc: lightboxPhoto && lightboxPhoto.src,
+      closeLightbox: () => this.setState({ lightboxPhoto: null }),
+      testimonialCards,
+      hasItems: filtered.length > 0,
+      portadaSrc: portada,
+      hasPortada: !!portada,
+      noPortada: !portada,
+      noItems: filtered.length === 0,
+      primaryWa: categories[0] ? this.waLink(categories[0]) : '#',
+      categories,
+
+      avatarSrc: avatar, hasAvatar: !!avatar, noAvatar: !avatar,
+      chatOpen, toggleChat: () => this.toggleChat(),
+      toggleVoice: () => this.toggleVoice(),
+      voiceBtnStyle: { background: voiceOn ? '#C6A14B' : 'transparent', border: '1px solid rgba(198,161,75,0.5)', color: voiceOn ? '#241F16' : '#9c7d34', width: '28px', height: '28px', borderRadius: '50%', fontSize: '0.75rem', cursor: 'pointer', flexShrink: 0 },
+      messages: renderedMessages,
+      options,
+      isBooking: stage === 'booking',
+
+      citCat, citName, citPhone, citDate, citTime, citAddress, citNote,
+      onCitCat: e => this.setState({ citCat: e.target.value }),
+      onCitName: e => this.setState({ citName: e.target.value }),
+      onCitPhone: e => this.setState({ citPhone: e.target.value }),
+      onCitDate: e => this.setState({ citDate: e.target.value }),
+      onCitTime: e => this.setState({ citTime: e.target.value }),
+      onCitAddress: e => this.setState({ citAddress: e.target.value }),
+      captureGPS: () => this.captureGPS(),
+      gpsLoading: this.state.gpsLoading,
+      gpsLabel: this.state.gpsLoading ? '⏳' : '📍 GPS',
+      onCitNote: e => this.setState({ citNote: e.target.value }),
+      submitCita: () => this.confirmBooking(),
+
+      editMode, editModeLabel: editMode ? '✎ Salir de edición' : '✎ Editar tarjetas',
+      toggleEditMode: () => this.toggleEditMode(),
+      pinPromptOpen, editPin,
+      onEditPin: e => this.setState({ editPin: e.target.value }),
+      onEditPinKey: e => { if (e.key === 'Enter') this.confirmEditPin(); },
+      confirmEditPin: () => this.confirmEditPin(),
+      closePinPrompt: () => this.setState({ pinPromptOpen: false, editPin: '' }),
+
+      editorOpen, editorTitle: editingId ? 'Editar trabajo' : 'Nuevo trabajo',
+      draftCat, draftTitle, draftDesc, draftLink,
+      draftHasImg: !!draftImg, draftImgPreview: draftImg,
+      onDraftCat: e => this.setState({ draftCat: e.target.value }),
+      onDraftTitle: e => this.setState({ draftTitle: e.target.value }),
+      onDraftDesc: e => this.setState({ draftDesc: e.target.value }),
+      onDraftLink: e => this.setState({ draftLink: e.target.value }),
+      pickDraftImg: () => this.pickDraftImg(),
+      startAddJob: () => this.startAddJob(),
+      saveDraft: () => this.saveDraft(),
+      closeEditor: () => this.setState({ editorOpen: false, editingId: null }),
+
+      fileInputRef: this.fileInputRef,
+      handleFile: e => this.handleFile(e),
+      bloquesView: (this.state.bloques || []).slice().sort((a, b) => (a.orden || 0) - (b.orden || 0)).map(b => ({ titulo: b.titulo || 'Descubre', desc: b.desc || '', hasDesc: !!b.desc, img: b.img || '', hasImg: !!b.img, noImg: !b.img, onOpen: () => this.openBloque(b) })),
+      hasBloques: (this.state.bloques || []).length > 0,
+      hasBloqueModal: !!this.state.bloqueModal, modalTitulo: this.state.bloqueModal ? (this.state.bloqueModal.titulo || 'Descubre') : '',
+      onCloseBloque: () => this.setState({ bloqueModal: null }),
+      mapRef: this.mapRef
+    };
+  }
+}
+
+</script>
+</body>
+</html>
