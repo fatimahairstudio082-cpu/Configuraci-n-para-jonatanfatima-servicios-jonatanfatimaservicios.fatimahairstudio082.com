@@ -22,13 +22,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700;800&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#FAF5E9;font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;text-wrap:pretty;}
-a{color:#9c7d34;text-decoration:none;}
-a:hover{color:#C6A14B;}
-::selection{background:#C6A14B;color:#241F16;}
+html{font-size:18px;}
+body{background:#080a12;font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;text-wrap:pretty;color:#f0ece0;}
+a{color:#c9a84c;text-decoration:none;}
+a:hover{color:#e6c97d;}
+::selection{background:#C6A14B;color:#080a12;}
 ::-webkit-scrollbar{height:0;width:0;}
 @keyframes jfGlow{0%,100%{opacity:.35;transform:scale(1);}50%{opacity:.6;transform:scale(1.08);}}
 @keyframes jfRise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── TEMA OSCURO + GLASS ──────────────────────────────────── */
+[style*="background:#FBF8F2"]{background:#0c0f1a !important;}
+[style*="background:#FAF5E9"]{background:#080a12 !important;}
+[style*="background:linear-gradient(135deg,#F2ECDD"]{background:linear-gradient(135deg,#0e1520,#141d2e) !important;}
+[style*="background:linear-gradient(135deg,#F8F2E4"]{background:linear-gradient(135deg,#0e1520,#141d2e) !important;}
+[style*="background:#FFFFFF"]{background:rgba(255,255,255,0.05) !important;backdrop-filter:blur(16px) !important;-webkit-backdrop-filter:blur(16px) !important;}
+[style*="color:#241F16"]:not([style*="background:#C6A14B"]){color:#f0ece0 !important;}
+[style*="color:rgba(36,31,22"]{color:rgba(240,236,224,0.62) !important;}
+[style*="background:rgba(251,248,242,0.92)"]{background:rgba(15,19,30,0.92) !important;}
+[style*="background:rgba(251,248,242,0.85)"]{background:rgba(15,19,30,0.85) !important;}
+[style*="border:1px solid rgba(36,31,22"]{border-color:rgba(240,236,224,0.15) !important;}
+[style*="border-bottom:1px solid rgba(36,31,22"]{border-color:rgba(240,236,224,0.1) !important;}
+input:not([type="file"]),select{background:rgba(255,255,255,0.06) !important;color:#f0ece0 !important;}
+input::placeholder{color:rgba(240,236,224,0.35);}
+select option{background:#0c0f1a;color:#f0ece0;}
+footer{border-color:rgba(201,168,76,0.2) !important;}
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -37,10 +55,10 @@ a:hover{color:#C6A14B;}
 <script src="./fc-firebase.js"></script>
 </helmet>
 
-<div style="min-height:100vh;background:#FBF8F2;color:#241F16;position:relative;overflow-x:hidden;">
+<div style="min-height:100vh;background:#080a12;color:#f0ece0;position:relative;overflow-x:hidden;">
 
   <!-- HEADER -->
-  <header style="position:sticky;top:0;z-index:60;background:rgba(251,248,242,0.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(184,146,58,0.4);padding:16px clamp(20px,5vw,48px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;">
+  <header style="position:sticky;top:0;z-index:60;background:rgba(8,10,18,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(198,161,75,0.22);padding:16px clamp(20px,5vw,48px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;">
     <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.35rem,3vw,1.6rem);font-weight:600;letter-spacing:0.3px;">Jonatan <span style="color:#B8923A;">&amp;</span> Fátima</div>
     <nav style="display:flex;gap:clamp(16px,3vw,32px);align-items:center;flex-wrap:wrap;">
       <a href="#servicios" style="font-size:0.82rem;color:rgba(36,31,22,0.6);font-weight:600;letter-spacing:0.5px;">Oficios</a>
@@ -55,7 +73,7 @@ a:hover{color:#C6A14B;}
 
   <!-- HERO -->
   <section style="position:relative;padding:clamp(48px,10vw,96px) clamp(20px,5vw,48px) clamp(60px,8vw,110px);max-width:1320px;margin:0 auto;">
-    <div style="position:absolute;top:-120px;right:-80px;width:480px;height:480px;background:radial-gradient(circle,rgba(198,161,75,0.28) 0%,transparent 70%);filter:blur(10px);animation:jfGlow 7s ease-in-out infinite;pointer-events:none;"></div>
+    <div style="position:absolute;top:-120px;right:-80px;width:580px;height:580px;background:radial-gradient(circle,rgba(198,161,75,0.4) 0%,transparent 68%);filter:blur(14px);animation:jfGlow 7s ease-in-out infinite;pointer-events:none;"></div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,6vw,64px);align-items:center;position:relative;">
       <div style="animation:jfRise 0.7s ease both;">
         <div style="font-size:0.72rem;letter-spacing:3.5px;text-transform:uppercase;color:#9C7A2E;font-weight:700;margin-bottom:22px;">Calamocha &amp; Zaragoza</div>
@@ -701,9 +719,9 @@ class Component extends DCLogic {
       isBot: m.from === 'bot',
       bubbleStyle: {
         alignSelf: m.from === 'bot' ? 'flex-start' : 'flex-end',
-        background: m.from === 'bot' ? '#F8F2E4' : '#C6A14B',
-        color: m.from === 'bot' ? '#241F16' : '#241F16',
-        border: m.from === 'bot' ? '1px solid rgba(184,146,58,0.45)' : 'none',
+        background: m.from === 'bot' ? 'rgba(255,255,255,0.07)' : '#C6A14B',
+        color: m.from === 'bot' ? '#f0ece0' : '#241F16',
+        border: m.from === 'bot' ? '1px solid rgba(198,161,75,0.25)' : 'none',
         borderRadius: '12px', padding: '10px 12px', fontSize: '0.84rem', lineHeight: 1.5, maxWidth: '90%'
       },
       onSpeak: () => this.speak(m.text)
@@ -735,7 +753,7 @@ class Component extends DCLogic {
     const tabs = [{ id: 'all', name: 'Todos', icon: '✨' }, ...categories].map(c => ({
       ...c,
       onSelect: () => this.setState({ activeCat: c.id }),
-      style: { ...tabBase, color: activeCat === c.id ? '#9c7d34' : 'rgba(36,31,22,0.5)', borderBottom: activeCat === c.id ? '2px solid #C6A14B' : '2px solid transparent' }
+      style: { ...tabBase, color: activeCat === c.id ? '#c9a84c' : 'rgba(240,236,224,0.45)', borderBottom: activeCat === c.id ? '2px solid #C6A14B' : '2px solid transparent' }
     }));
 
     const filtered = (activeCat === 'all' ? portfolio : portfolio.filter(p => p.catId === activeCat)).map(p => {
@@ -749,7 +767,7 @@ class Component extends DCLogic {
         onEditImg: () => this.pickJobImage(p),
         onEdit: () => this.startEditJob(p),
         onDeleteJob: () => this.deleteJob(p.id),
-        cardStyle: { background: '#FFFFFF', border: '1px solid rgba(184,146,58,0.45)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.35s', cursor: (!editMode && hasLink) ? 'pointer' : 'default' }
+        cardStyle: { background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid rgba(198,161,75,0.28)', borderRadius: '20px', overflow: 'hidden', transition: 'all 0.35s', cursor: (!editMode && hasLink) ? 'pointer' : 'default' }
       };
     });
 
